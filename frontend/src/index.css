@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.nav, .lato {
+  font-family: 'Lato', sans-serif;
+}
+.nav a, .dark-blue {
+  color: #032f4e;
+}
+.inter {
+  font-family: 'Inter', sans-serif;
+}
+.menu-drawer li {
+  margin: 20px 0;
+}
