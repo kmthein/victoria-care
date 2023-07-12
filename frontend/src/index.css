@@ -22,3 +22,6 @@
 li {
   list-style: none;
 }
+.footer-nav a:hover {
+  color: rgb(153, 153, 153);
+}

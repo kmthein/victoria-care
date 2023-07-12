@@ -1,0 +1,51 @@
+import React from 'react'
+import footerLogo from "../../assets/images/white-logo.png";
+import { FaHospitalAlt } from 'react-icons/fa';
+import { BsTelephoneFill } from 'react-icons/bs';
+import { HiMail } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
+import { AiOutlineMail } from 'react-icons/ai';
+
+const Footer = () => {
+  return (
+    <div className=' bg-[#19376d] py-8 text-white'>
+        <div className='w-[90%] mx-auto'>
+            <div className=' flex items-start justify-between'>
+                <div>
+                <img src={footerLogo} alt="footer-logo" className="w-[170px] md:w-[200px]" />
+                {/* <div className=' text-white flex items-center gap-2 mt-2 text-sm'>
+                    <FaHospitalAlt />
+                    <span>No.68, Taw Win Road, 9 Mile, Yangon</span>
+                </div>
+                <div className=' text-white flex items-center gap-2 mt-2 text-sm'>
+                    <BsTelephoneFill />
+                    <span>+951-9666141</span>
+                </div>
+                <div className=' text-white flex items-center gap-2 mt-2 text-sm'>
+                    <HiMail />
+                    <span>info@witoriyahospital.com</span>
+                </div> */}
+                </div>
+                <div className=' ml-20'>
+                    <div className=' flex gap-2 text-[15px] footer-nav'>
+                        <Link className=' border-r-2 pr-2'>Home</Link>
+                        <Link className=' border-r-2 pr-2'>About</Link>
+                        <Link className=' border-r-2 pr-2'>Doctor</Link>
+                        <Link className=' border-r-2 pr-2'>Specialty</Link>
+                        <Link>Contact</Link>
+                    </div>
+                        <p className='text-center mt-2 text-white/80'>© 2023 kmthein</p>
+                </div>
+                <div className='bg-white rounded-md flex items-center py-2 px-2'>
+                    <AiOutlineMail className='text-gray-500 mt-[2px]' />
+                    <input type="text" className='text-black text-[15px] px-2 focus:outline-none' placeholder='Type your email address' />
+                    <button className='bg-[#5FA5D9] py-1 px-2 rounded-md text-[15px]'>Subscribe</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+  )
+}
+
+export default Footer
