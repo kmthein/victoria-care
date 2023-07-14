@@ -1,6 +1,6 @@
 import React from "react";
 import mainLogo from "../../assets/images/main-logo.png";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { HiMenuAlt1 } from "react-icons/hi";
@@ -15,9 +15,11 @@ const Navbar = () => {
           className=" flex items-center justify-between"
           initial={{ y: -100 }}
           animate={{ y: 0 }}
-          transition={{ duration: 1, delay: 1.5 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <img src={mainLogo} alt="logo" className="w-[200px] md:w-[230px]" />
+          <Link to="/">
+            <img src={mainLogo} alt="logo" className="w-[200px] md:w-[230px]" />
+          </Link>
           <div className="hidden lg:flex items-center gap-8">
             <motion.div className="flex gap-6 font-medium">
               <NavLink
@@ -28,7 +30,7 @@ const Navbar = () => {
                     : ""
                 }
               >
-                <motion.li whileHover={{ scale: 1.1, color: "#001C30" }}>
+                <motion.li whileHover={{ scale: 1.03, color: "#051c44" }}>
                   Home
                 </motion.li>
               </NavLink>
@@ -40,7 +42,7 @@ const Navbar = () => {
                     : ""
                 }
               >
-                <motion.li whileHover={{ scale: 1.1, color: "#001C30" }}>
+                <motion.li whileHover={{ scale: 1.03, color: "#051c44" }}>
                   About
                 </motion.li>
               </NavLink>
@@ -52,7 +54,7 @@ const Navbar = () => {
                     : ""
                 }
               >
-                <motion.li whileHover={{ scale: 1.1, color: "#001C30" }}>
+                <motion.li whileHover={{ scale: 1.03, color: "#051c44" }}>
                   Doctor
                 </motion.li>
               </NavLink>
@@ -64,7 +66,7 @@ const Navbar = () => {
                     : ""
                 }
               >
-                <motion.li whileHover={{ scale: 1.1, color: "#001C30" }}>
+                <motion.li whileHover={{ scale: 1.03, color: "#051c44" }}>
                   Specialty
                 </motion.li>
               </NavLink>
@@ -76,15 +78,20 @@ const Navbar = () => {
                     : ""
                 }
               >
-                <motion.li whileHover={{ scale: 1.1, color: "#001C30" }}>
+                <motion.li
+                  whileHover={{ scale: 1.03, color: "#051c44" }}
+                  transition={{ duration: 0.5 }}
+                >
                   Contact
                 </motion.li>
               </NavLink>
             </motion.div>
             {/* <FontAwesomeIcon icon={faMagnifyingGlass} className=' text-xl' /> */}
             <div>
-              <motion.button className=" bg-[#416AB2] text-white py-2 px-6 rounded-md hover:bg-[#6b8ec9]"
-              whileHover={{ scale: 1.1 }}
+              <motion.button
+                className=" bg-[#416AB2] text-white py-2 px-6 rounded-md hover:bg-[#6b8ec9]"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.5 }}
               >
                 Login
               </motion.button>

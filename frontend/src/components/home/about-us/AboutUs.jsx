@@ -9,7 +9,7 @@ const AboutUs = () => {
   return (
     <div className=" relative w-full xl:w-[80%] xl:h-[700px] mx-auto inter text-[#53748B]">
       <div className=" flex flex-col-reverse xl:flex xl:flex-row py-[120px]">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2, duration: 0.5 }} className="  relative w-full xl:w-[50%]">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 0.5 }} className="  relative w-full xl:w-[50%]">
           <img
             src={img1}
             className=" top-60 xl:top-0 w-[200px] h-[200px] xl:w-[300px] xl:h-[300px] object-cover ml-8 md:ml-[30%] xl:ml-0"
@@ -23,7 +23,7 @@ const AboutUs = () => {
             />
           </div>
         </motion.div>
-        <motion.div initial={{ x: '+100vw' }} animate={{ x: 0 }} transition={{ delay: 2, duration: 0.5 }} className=" w-[90%] mx-auto xl:mx-0 xl:w-[50%]">
+        <motion.div initial={{ x: '+100vw' }} animate={{ x: 0 }} transition={{ delay: 1, duration: 0.5 }} className=" w-[90%] mx-auto xl:mx-0 xl:w-[50%]">
             <MenuPill title={"About Us"} style="border-[#5e8099]" />
             <h2 className=" my-6 text-[#0C3C5F] font-semibold text-3xl">Welcome to Victoria Care</h2>
             <p className=" leading-relaxed">Victoria Hospital offers high quality medical services and it is well-equipped with modern technology. It is located on No.68, Taw Win Road, 9 Mile, Mayagone Township, Yangon, Myanmar. Victoria Hospital offers comprehensive medical services with superior quality and high efficiency.Victoria Hospital aims to go beyond medical and healthcare services. Victoria organizes and conducts regular consultations and encourages discussions with respected and credible working partners and stakeholders.</p>

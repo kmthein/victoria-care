@@ -36,8 +36,8 @@ const Footer = () => {
                     </div>
                         <p className='text-center mt-2 text-white/80'>© 2023 kmthein</p>
                 </div>
-                <div className='bg-white rounded-md flex items-center py-2 px-2'>
-                    <AiOutlineMail className='text-gray-500 mt-[2px]' />
+                <div className='bg-white rounded-md flex items-center py-[6px] px-2 text-sm'>
+                    <AiOutlineMail className='text-gray-500 mt-[2px] text-lg' />
                     <input type="text" className='text-black text-[15px] px-2 focus:outline-none' placeholder='Type your email address' />
                     <button className='bg-[#5FA5D9] py-1 px-2 rounded-md text-[15px]'>Subscribe</button>
                 </div>

@@ -15,7 +15,6 @@ const Homepage = () => {
         <Features />
         <Doctor />
         <Feedback />
-        <Footer />
     </>
   )
 }

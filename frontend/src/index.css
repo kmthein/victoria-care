@@ -25,3 +25,22 @@ li {
 .footer-nav a:hover {
   color: rgb(153, 153, 153);
 }
+.breadcrumb {
+  background-image: url(./assets//images/breadcrumb-bg.png);
+}
+.breadcrumb_img {
+  filter: opacity(0.7);
+}
+.search_box {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+color {
+  color: #80a6c2;
+}
+.contact-input input {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  font-size: 15px;
+}
+.contact-input input:focus, .contact-input textarea:focus {
+  outline: none;
+}
