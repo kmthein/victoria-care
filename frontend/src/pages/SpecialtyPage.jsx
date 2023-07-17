@@ -25,9 +25,11 @@ const SpecialtyPage = () => {
         <SearchBar placeholder={"Search by specialty name"} submitType={"searchSpecialty"} />
         <div className=' flex flex-wrap gap-6 mb-8'>
           {
+            specialties && specialties.length > 0 ?
             specialties.map((specialty) => (
               <SpecialtyItem key={specialty.id} id={specialty.id} name={specialty.specialty_name}  />
-            ))
+            )) :
+            <p className='mx-auto'>No Results Available.</p>
           }
         </div>
       </div>

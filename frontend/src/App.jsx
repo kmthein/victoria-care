@@ -10,6 +10,7 @@ import AppoinmentPage from './pages/AppoinmentPage';
 import { authLoader, tokenLoader } from './util/auth';
 import SearchResultPage from './pages/SearchResultPage';
 import SpecialtyFilterPage from './pages/SpecialtyFilterPage';
+import UserProile from './pages/UserProile';
 
 function App() {
 
@@ -23,6 +24,10 @@ function App() {
         {
           index: true,
           element: <Homepage />
+        },
+        {
+          path: '/user/profile',
+          element: <UserProile />
         },
         {
           path: '/about',
