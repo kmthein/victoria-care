@@ -10,16 +10,40 @@ import {
   Button,
   Input,
 } from "@chakra-ui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+} from "@chakra-ui/react";
 import React from "react";
+import { BiChevronDown } from "react-icons/bi";
 import { HiMenuAlt1 } from "react-icons/hi";
-import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { NavLink, useNavigate, useRouteLoaderData } from "react-router-dom";
 
-export function MenuDrawer() {
+export function MenuDrawer({ onLoginOpen }) {
+  const isLoggedIn = useRouteLoaderData("root");
+
+  const currentUser = useSelector(state => state.auth.currentUser);
+
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+  
   const btnRef = React.useRef();
 
   return (
-    <>
+    <div className="cursor-pointer">
       <HiMenuAlt1 className="text-3xl" onClick={onOpen} />
       <Drawer
         isOpen={isOpen}
@@ -99,15 +123,32 @@ export function MenuDrawer() {
                   </NavLink>
                 </li>
                 <li>
-                  <button className=" bg-[#416AB2] text-white py-2 px-6 rounded-md" onClick={onClose}>
-                    Login
-                  </button>
+                  {
+                    !isLoggedIn ?
+                    <button className=" bg-[#416AB2] text-white py-2 px-6 rounded-md" 
+                    onClick={() => {
+                      onClose();
+                      onLoginOpen();
+                    }}
+                    >
+                      Login
+                    </button> :
+                                      <Menu>
+                                      <MenuButton as={Button} rightIcon={<BiChevronDown />}>
+                                        {currentUser.name}
+                                      </MenuButton>
+                                      <MenuList>
+                                        <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+                                      </MenuList>
+                                    </Menu>
+                  }
+                  
                 </li>
               </ul>
             </div>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-    </>
+    </div>
   );
 }

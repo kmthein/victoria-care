@@ -67,7 +67,7 @@ const Hero = () => {
             className="w-full md:w-[50%] mt-[120px]"
             initial={{ x: "+100vw" }}
             animate={{ x: 0 }}
-            transition={{ duration: 1.5 }}
+            transition={{ delay: 1, duration: 1.5 }}
           >
             <img src={heroImg} alt="hero-img" className=" w-[80%] mx-auto" />
           </motion.div>

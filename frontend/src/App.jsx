@@ -3,15 +3,22 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import MainLayout from './layout/MainLayout';
 import Homepage from './pages/Homepage';
 import AboutPage from './pages/AboutPage';
-import DoctorPage from './pages/DoctorPage';
-import SpecialtyPage from './pages/SpecialtyPage';
+import DoctorPage, { loader as allDoctorsLoader } from './pages/DoctorPage';
+import SpecialtyPage, { loader as specialtiesLoader } from './pages/SpecialtyPage';
 import ContactPage from './pages/ContactPage';
+import AppoinmentPage from './pages/AppoinmentPage';
+import { authLoader, tokenLoader } from './util/auth';
+import SearchResultPage from './pages/SearchResultPage';
+import SpecialtyFilterPage from './pages/SpecialtyFilterPage';
 
 function App() {
+
   const router = createBrowserRouter([
     {
       path: '/',
       element: <MainLayout />,
+      loader: tokenLoader,
+      id: 'root',
       children: [
         {
           index: true,
@@ -23,16 +30,37 @@ function App() {
         },
         {
           path: '/doctor',
-          element: <DoctorPage />
+          element: <DoctorPage />,
+          loader: allDoctorsLoader
         },
         {
-          path: '/specialty',
-          element: <SpecialtyPage />
+          path: ':specialty',
+          id: 'specialty',
+          loader: specialtiesLoader,
+          children: [
+            {
+              index: true,
+              element: <SpecialtyPage />,
+            },     
+            {
+              path: 'name',
+              element: <SpecialtyFilterPage />
+            }      
+          ]
+        },
+        {
+          path: '/specialty-search',
+          element: <SearchResultPage />,
         },
         {
           path: '/contact',
           element: <ContactPage />
         },
+        {
+          path: '/appointment',
+          element: <AppoinmentPage />,
+          loader: authLoader
+        }
       ]
     }
   ])

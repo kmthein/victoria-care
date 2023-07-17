@@ -1,13 +1,16 @@
 import React from 'react'
 import DoctorItem from './DoctorItem'
 
-const DoctorList = () => {
+const DoctorList = ({doctors}) => {
   return (
     <div className=' mb-8'>
         <h3 className=' text-lg font-semibold'>Available Doctors</h3>
-        <DoctorItem />
-        <DoctorItem />
-        <DoctorItem />
+        {
+          doctors && doctors.length > 0 &&
+          doctors.map((doctor) => (
+            <DoctorItem key={doctor.id} id={doctor.id} name={doctor.name} qualification={doctor.qualification} schedules={JSON.parse(doctor.schedule)} />
+          ))
+        }
     </div>
   )
 }

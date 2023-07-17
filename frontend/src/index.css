@@ -37,10 +37,12 @@ li {
 color {
   color: #80a6c2;
 }
-.contact-input input {
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+.contact-input input, .contact-input {
   font-size: 15px;
 }
 .contact-input input:focus, .contact-input textarea:focus {
   outline: none;
+}
+.appointment-box {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
