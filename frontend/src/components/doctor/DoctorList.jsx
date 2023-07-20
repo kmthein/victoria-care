@@ -8,7 +8,7 @@ const DoctorList = ({doctors}) => {
         {
           doctors && doctors.length > 0 ?
           doctors.map((doctor) => (
-            <DoctorItem key={doctor.id} id={doctor.id} name={doctor.name} qualification={doctor.qualification} schedules_day={JSON.parse(doctor.schedule_day)} schedules_time={JSON.parse(doctor.schedule_time)} />
+            <DoctorItem key={doctor.id} id={doctor.id} name={doctor.name} qualification={doctor.qualification} schedules_day={JSON.parse(doctor.schedule_day)} schedules_time={JSON.parse(doctor.schedule_time)} specialty_id={doctor.specialty_id} />
           )) :
           <p className='text-center'>No Doctors Available.</p>
         }

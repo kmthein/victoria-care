@@ -36,6 +36,7 @@ import AuthForm from "../auth/AuthForm";
 import { useDispatch, useSelector } from "react-redux";
 import { BiChevronDown } from "react-icons/bi";
 import { useToast } from "@chakra-ui/react";
+import { authActions } from "../../store/reducer/authReducer";
 
 const Navbar = () => {
   const isLoggedIn = useRouteLoaderData("root");
@@ -53,8 +54,11 @@ const Navbar = () => {
 
   const toast = useToast();
 
+  const dispatch = useDispatch();
+
   const logoutHandler = () => {
     localStorage.removeItem("token");
+    dispatch(authActions.logout([]));
     toast({
       title: "Your account has been logout.",
       status: "info",

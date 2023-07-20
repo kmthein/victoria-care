@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialSelectDoctor = {
+    name: "",
+    specialty: "",
+    schedule: [],
+}
+
 const initialState = {
-    selectedDoctor: {
-        name: "",
-        specialty: "",
-        schedule: [],
-    }
+    selectedDoctor: initialSelectDoctor
 }
 
 const appointSlice = createSlice({
@@ -16,7 +18,10 @@ const appointSlice = createSlice({
             state.selectedDoctor = action.payload;
         },
         cancelAppointment(state, action) {
-            state.selectedDoctor = action.payload;
+            state.selectedDoctor = initialSelectDoctor;
+        },
+        updateSpecialty(state, action) {
+            state.selectedDoctor = {...state.selectedDoctor, specialty: action.payload}
         }
     }
 })

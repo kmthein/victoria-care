@@ -17,11 +17,20 @@ export const searchSpecialtyByName = (req, res) => {
         if(err) return res.json(err);
         return res.status(200).json(data);
     })
-
 }
 
 export const filterSpecialty = (req, res) => {
     const q = "SELECT * FROM doctor WHERE specialty_id = ?";
+    const id = req.body.id;
+
+    db.query(q, [id], (err, data) => {
+        if(err) return res.json(err);
+        return res.status(200).json(data);
+    })
+}
+
+export const getDoctorSpecialty = (req, res) => {
+    const q = "SELECT * FROM specialty WHERE id = ?"
     const id = req.body.id;
 
     db.query(q, [id], (err, data) => {

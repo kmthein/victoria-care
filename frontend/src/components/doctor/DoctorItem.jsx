@@ -27,6 +27,7 @@ const DoctorItem = ({
   qualification,
   schedules_day,
   schedules_time,
+  specialty_id
 }) => {
   const currentUser = useSelector((state) => state.auth.currentUser);
 
@@ -44,12 +45,13 @@ const DoctorItem = ({
 
   const dispatch = useDispatch();
 
-  const makeAppointment = (id, name, schedules_day, schedules_time) => {
+  const makeAppointment = (id, name, schedules_day, schedules_time, specialty_id) => {
     const selectDoctor = {
       id,
       name,
       schedules_day,
-      schedules_time
+      schedules_time,
+      specialty_id
     }
     dispatch(appointActions.makeAppointment(selectDoctor))
   }
@@ -72,7 +74,7 @@ const DoctorItem = ({
           </p>
           <div className=" mt-2 text-sm flex justify-end">
             {isLoggedIn ? (
-              <Link to="/appointment" onClick={makeAppointment(id, name, schedules_day, schedules_time)}>
+              <Link to="/appointment" onClick={() => makeAppointment(id, name, schedules_day, schedules_time, specialty_id)}>
                 <motion.button
                   whileHover={{
                     scale: 1.02,
