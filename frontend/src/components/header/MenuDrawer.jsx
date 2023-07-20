@@ -23,23 +23,27 @@ import {
 import React from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { HiMenuAlt1 } from "react-icons/hi";
-import { useSelector } from "react-redux";
-import { NavLink, useNavigate, useRouteLoaderData } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, NavLink, useNavigate, useRouteLoaderData } from "react-router-dom";
+import { authActions } from "../../store/reducer/authReducer";
 
 export function MenuDrawer({ onLoginOpen }) {
   const isLoggedIn = useRouteLoaderData("root");
 
-  const currentUser = useSelector(state => state.auth.currentUser);
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const logoutHandler = () => {
     localStorage.removeItem("token");
+    dispatch(authActions.logout([]));
     navigate("/");
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
+
   const btnRef = React.useRef();
 
   return (
@@ -123,26 +127,29 @@ export function MenuDrawer({ onLoginOpen }) {
                   </NavLink>
                 </li>
                 <li>
-                  {
-                    !isLoggedIn ?
-                    <button className=" bg-[#416AB2] text-white py-2 px-6 rounded-md" 
-                    onClick={() => {
-                      onClose();
-                      onLoginOpen();
-                    }}
+                  {!isLoggedIn ? (
+                    <button
+                      className=" bg-[#416AB2] text-white py-2 px-6 rounded-md"
+                      onClick={() => {
+                        onClose();
+                        onLoginOpen();
+                      }}
                     >
                       Login
-                    </button> :
-                                      <Menu>
-                                      <MenuButton as={Button} rightIcon={<BiChevronDown />}>
-                                        {currentUser.name}
-                                      </MenuButton>
-                                      <MenuList>
-                                        <MenuItem onClick={logoutHandler}>Logout</MenuItem>
-                                      </MenuList>
-                                    </Menu>
-                  }
-                  
+                    </button>
+                  ) : (
+                    <Menu>
+                      <MenuButton as={Button} rightIcon={<BiChevronDown />}>
+                        {currentUser.name}
+                      </MenuButton>
+                      <MenuList>
+                        <Link to="/user/profile">
+                          <MenuItem>My Profile</MenuItem>
+                        </Link>
+                        <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+                      </MenuList>
+                    </Menu>
+                  )}
                 </li>
               </ul>
             </div>

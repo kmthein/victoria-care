@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 const AppointmentForm = () => {
   const currentUser = useSelector(state => state.auth.currentUser);
 
+  const selectDoctor = useSelector(state => state.appoint.selectedDoctor);
+  console.log(selectDoctor);
+
   return (
     <div className=" w-[80%] mx-auto mt-12 mb-20  inter">
       <div className=" flex appointment-box">

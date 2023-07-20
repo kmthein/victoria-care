@@ -1,80 +1,82 @@
-import { useState } from 'react'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import MainLayout from './layout/MainLayout';
-import Homepage from './pages/Homepage';
-import AboutPage from './pages/AboutPage';
-import DoctorPage, { loader as allDoctorsLoader } from './pages/DoctorPage';
-import SpecialtyPage, { loader as specialtiesLoader } from './pages/SpecialtyPage';
-import ContactPage from './pages/ContactPage';
-import AppoinmentPage from './pages/AppoinmentPage';
-import { authLoader, tokenLoader } from './util/auth';
-import SearchResultPage from './pages/SearchResultPage';
-import SpecialtyFilterPage from './pages/SpecialtyFilterPage';
-import UserProile from './pages/UserProile';
+import { useState } from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import MainLayout from "./layout/MainLayout";
+import Homepage from "./pages/Homepage";
+import AboutPage from "./pages/AboutPage";
+import DoctorPage, { loader as allDoctorsLoader } from "./pages/DoctorPage";
+import SpecialtyPage, {
+  loader as specialtiesLoader,
+} from "./pages/SpecialtyPage";
+import ContactPage from "./pages/ContactPage";
+import AppoinmentPage from "./pages/AppoinmentPage";
+import { authLoader, tokenLoader } from "./util/auth";
+import SearchResultPage from "./pages/SearchResultPage";
+import SpecialtyFilterPage from "./pages/SpecialtyFilterPage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 function App() {
-
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: <MainLayout />,
       loader: tokenLoader,
-      id: 'root',
+      id: "root",
       children: [
         {
           index: true,
-          element: <Homepage />
+          element: <Homepage />,
         },
         {
-          path: '/user/profile',
-          element: <UserProile />
+          path: "/user/profile",
+          element: <UserProfilePage />,
+          loader: authLoader,
         },
         {
-          path: '/about',
-          element: <AboutPage />
+          path: "/about",
+          element: <AboutPage />,
         },
         {
-          path: '/doctor',
+          path: "/doctor",
           element: <DoctorPage />,
-          loader: allDoctorsLoader
+          loader: allDoctorsLoader,
         },
         {
-          path: ':specialty',
-          id: 'specialty',
+          path: ":specialty",
+          id: "specialty",
           loader: specialtiesLoader,
           children: [
             {
               index: true,
               element: <SpecialtyPage />,
-            },     
+            },
             {
-              path: 'name',
-              element: <SpecialtyFilterPage />
-            }      
-          ]
+              path: "name",
+              element: <SpecialtyFilterPage />,
+            },
+          ],
         },
         {
-          path: '/specialty-search',
+          path: "/specialty-search",
           element: <SearchResultPage />,
         },
         {
-          path: '/contact',
-          element: <ContactPage />
+          path: "/contact",
+          element: <ContactPage />,
         },
         {
-          path: '/appointment',
+          path: "/appointment",
           element: <AppoinmentPage />,
-          loader: authLoader
-        }
-      ]
-    }
-  ])
+          loader: authLoader,
+        },
+      ],
+    },
+  ]);
 
   return (
     <>
       <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

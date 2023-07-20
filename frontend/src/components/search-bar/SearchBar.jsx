@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const SearchBar = ({ placeholder, submitType }) => {
-  console.log(submitType);
   const [input, setInput] = useState({
     name: "",
   });
@@ -24,7 +23,6 @@ const SearchBar = ({ placeholder, submitType }) => {
   if(submitType == "searchDoctor") {
     searchSubmitHandler = async (e) => {
       e.preventDefault();
-      
     }
   } else {
     searchSubmitHandler = async (e) => {

@@ -35,6 +35,7 @@ import {
 import AuthForm from "../auth/AuthForm";
 import { useDispatch, useSelector } from "react-redux";
 import { BiChevronDown } from "react-icons/bi";
+import { useToast } from "@chakra-ui/react";
 
 const Navbar = () => {
   const isLoggedIn = useRouteLoaderData("root");
@@ -50,8 +51,16 @@ const Navbar = () => {
     onClose: onRegClose,
   } = useDisclosure();
 
+  const toast = useToast();
+
   const logoutHandler = () => {
     localStorage.removeItem("token");
+    toast({
+      title: "Your account has been logout.",
+      status: "info",
+      duration: 9000,
+      isClosable: true,
+    });
     navigate("/");
   };
 
@@ -155,6 +164,9 @@ const Navbar = () => {
                       {currentUser.name}
                     </MenuButton>
                     <MenuList>
+                      <Link to='/user/profile'>
+                      <MenuItem>My Profile</MenuItem>
+                      </Link>
                       <MenuItem onClick={logoutHandler}>Logout</MenuItem>
                     </MenuList>
                   </Menu>

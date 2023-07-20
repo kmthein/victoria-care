@@ -33,6 +33,15 @@ export const register = (req, res) => {
   });
 };
 
+export const changePassword = (req, res) => {
+  const q = "SELECT * FROM users WHERE id = ?";
+  
+  db.query(q, [req.body.id], (err, data) => {
+    if(err) return res.json(err);
+    return res.status(200).json(data);
+  })
+
+}
 export const login = (req, res) => {
   // Check email
   const q = "SELECT * FROM users WHERE email = ?";

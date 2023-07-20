@@ -14,11 +14,12 @@ import authImg from "../../assets/images/auth-img.png";
 import axios from "axios";
 import { url } from "../../api/api";
 import { useToast } from "@chakra-ui/react";
-import { useNavigate } from 'react-router-dom'
-import Cookie from 'js-cookie'
+import { useNavigate } from "react-router-dom";
+import Cookie from "js-cookie";
 import { useDispatch } from "react-redux";
 import { searchActions } from "../../store/reducer/searchReducer";
 import { authActions } from "../../store/reducer/authReducer";
+import { BeatLoader } from 'react-spinners'
 
 const AuthForm = ({
   isOpen,
@@ -75,7 +76,7 @@ const AuthForm = ({
       await axios.post(`${url}/api/auth/register`, regInput);
       toast({
         title: "Account created.",
-        description: "Congratulations, your accounted has been created.",
+        description: "Congratulations, your account has been created.",
         status: "success",
         duration: 9000,
         isClosable: true,
@@ -104,30 +105,39 @@ const AuthForm = ({
   const loginSubmitHandler = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    try {
-      const res = await axios.post(`${url}/api/auth/login`, loginInput);
-      const token = res.data;
-      localStorage.setItem("token", JSON.stringify(token));
-      onClose();
-      navigate('/')
-      dispatch(authActions.login(token))
-    } catch (error) {
-      if (error.response.status == 404) {
+    setTimeout(async () => {
+      try {
+        const res = await axios.post(`${url}/api/auth/login`, loginInput);
+        const token = res.data;
+        localStorage.setItem("token", JSON.stringify(token));
+        onClose();
+        navigate("/");
+        dispatch(authActions.login(token));
         toast({
-          title: error.response.data,
-          status: "error",
+          title: "Login Successful.",
+          status: "success",
+          duration: 9000,
           isClosable: true,
         });
+        setLoginInput(initialLoginInput);
+      } catch (error) {
+        if (error.response.status == 404) {
+          toast({
+            title: error.response.data,
+            status: "error",
+            isClosable: true,
+          });
+        }
+        if (error.response.status == 400) {
+          toast({
+            title: error.response.data,
+            status: "error",
+            isClosable: true,
+          });
+        }
       }
-      if (error.response.status == 400) {
-        toast({
-          title: error.response.data,
-          status: "error",
-          isClosable: true,
-        });
-      }
-    }
-    setIsSubmitting(false);
+      setIsSubmitting(false);
+    }, [1000])
   };
 
   return (
@@ -164,11 +174,15 @@ const AuthForm = ({
           <div className=" my-8">
             <div className="flex justify-center">
               <button
-                className=" bg-[#576CBC] py-2 text-white px-10 rounded-full disabled:bg-slate-400"
+                className=" bg-[#576CBC] h-12 text-white w-40 rounded-full disabled:bg-[#9ca8d6]"
                 onClick={loginSubmitHandler}
                 disabled={isSubmitting}
               >
-                Login
+                {isSubmitting ? (
+                  <BeatLoader color="#fff" size={7} />
+                ) : (
+                  "Login"
+                )}
               </button>
             </div>
             <div className=" flex justify-center mt-6">
