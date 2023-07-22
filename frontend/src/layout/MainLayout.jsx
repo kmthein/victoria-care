@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Navbar from '../components/header/Navbar'
-import { Outlet, useLoaderData, useNavigate } from 'react-router-dom'
+import { Outlet, useLoaderData, useNavigate, useRouteLoaderData } from 'react-router-dom'
 import Footer from '../components/footer/Footer'
 import { useSelector } from 'react-redux'
 
@@ -9,14 +9,19 @@ const MainLayout = () => {
 
   const currentUser = useSelector(state => state.auth.currentUser);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const isLogIn = useSelector(state => state.auth.isLoggedIn);
 
   useEffect(() => {
     if(!token) {
       return;
     }
-    navigate('/')  
   }, [token, currentUser])
+
+  useEffect(() => {
+    navigate('/')
+  }, [isLogIn])
 
   return (
     <>
