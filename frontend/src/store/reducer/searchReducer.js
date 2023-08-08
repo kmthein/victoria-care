@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     specialities: [],
+    doctors: [],
+    searchDoctor: [],
     searchSpecialty: [],
     filterBySpecialty : []
 }
@@ -18,6 +20,9 @@ const searchSlice = createSlice({
         },
         filterBySpecialty(state, action) {
             state.filterBySpecialty = action.payload;
+        },
+        searchByDoctorName(state, action) {
+            state.searchDoctor = action.payload;
         }
     }
 })

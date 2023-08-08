@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLoaderData, useNavigate } from "react-router-dom";
 import {
   Tabs,
   TabList,
@@ -14,6 +14,7 @@ import { url } from "../api/api";
 import { authActions } from "../store/reducer/authReducer";
 import UserForm from "../components/user/UserForm";
 import Loading from "../components/animate/Loading";
+import TableForm from "../components/admin/table/TableForm";
 
 const UserProfilePage = () => {
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -55,11 +56,22 @@ const UserProfilePage = () => {
   //   checkPassword();
   // }, [id])
 
+  const [userHistory, setUserHistory] = useState([]);
+
+  const getAppointmentById = async () => {
+    const res = await axios.post(`${url}/appointment/history`, { id: id });
+    setUserHistory(res.data);
+  };
+
+  useEffect(() => {
+    getAppointmentById();
+  }, []);
+
   return (
     <div>
-      <div className=" w-[50%] mx-auto my-8 inter">
+      <div className=" w-[70%] mx-auto my-8 inter">
         <div className=" flex gap-8">
-          <div className=" w-[40%] ">
+          <div className=" w-[20%] ">
             <div className=" text-center">
               {img ? (
                 <img
@@ -86,7 +98,7 @@ const UserProfilePage = () => {
               </div> */}
             </div>
           </div>
-          <div className=" w-[60%]">
+          <div className=" w-[90%]">
             <div>
               <Tabs variant="soft-rounded" colorScheme="blue">
                 <TabList>
@@ -99,7 +111,27 @@ const UserProfilePage = () => {
                       <h4 className=" font-semibold text-lg">
                         My Appointments
                       </h4>
-                      <p className=" mt-20 text-center">No history yet.</p>
+                      <TableForm>
+                        <div className="flex px-4 py-4 border-b-[1px] font-medium sticky top-0 bg-[#e2e2e2]">
+                          <p className=" w-[200px]">Patient</p>
+                          <p className=" w-[250px]">Doctor</p>
+                          <p className=" w-[200px]">Date</p>
+                          <p className=" w-[200px]">Time</p>
+                        </div>
+                        {userHistory && userHistory.length > 0 ? (
+                        userHistory.map((h) => (
+                          <div key={h.id} className="flex px-4 py-4 border-b-[1px]">
+                            <p className=" w-[200px]">{h.patient_name}</p>
+                            <p className=" w-[250px]">{h.doctor_name}</p>
+                            <p className=" w-[200px]">{h.date}</p>
+                            <p className=" w-[200px]">{h.time}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <p className=" mt-20 text-center">No history yet.</p>
+                      )}
+                      </TableForm>
+                      
                     </div>
                   </TabPanel>
                   <TabPanel>

@@ -19,14 +19,25 @@ import Dashboard from "./pages/admin/Dashboard";
 import Patients, { loader as getPatientsLoader } from "./pages/admin/Patients";
 import Doctor, { loader as getDoctorsLoader } from "./pages/admin/Doctor";
 import Specialty, { loader as getSpecialty } from "./pages/admin/Specialty";
-import Appointment from "./pages/admin/Appointment";
+import Appointment, { loader as getAllAppoints } from "./pages/admin/Appointment";
 import Payment from "./pages/admin/Payment";
 import Report from "./pages/admin/Report";
 import Profile from "./pages/admin/Profile";
 import AddDoctor from "./components/admin/doctor/AddDoctor";
-import EditPatient, { loader as getSinglePatient } from "./components/admin/patient/EditPatient";
-import EditDoctor, { loader as getSingleDoctor } from "./components/admin/doctor/EditDoctor";
+import EditPatient, {
+  loader as getSinglePatient,
+} from "./components/admin/patient/EditPatient";
+import EditDoctor, {
+  loader as getSingleDoctor,
+} from "./components/admin/doctor/EditDoctor";
 import AddSpecialty from "./components/admin/specialty/AddSpecialty";
+import EditSpecialty, {
+  loader as editSpecialtyLoader,
+} from "./components/admin/specialty/EditSpecialty";
+import DoctorResultPage from "./pages/DoctorResultPage";
+import PaymentPage from "./pages/PaymentPage";
+import AppointmentDetail, { loader as appointDetailLoader } from "./pages/admin/AppointmentDetail";
+import { adminAuthLoader, adminTokenLoader } from "./util/adminAuth";
 
 function App() {
   const router = createBrowserRouter([
@@ -74,6 +85,10 @@ function App() {
           element: <SearchResultPage />,
         },
         {
+          path: "/doctor-search",
+          element: <DoctorResultPage />,
+        },
+        {
           path: "/contact",
           element: <ContactPage />,
         },
@@ -82,19 +97,26 @@ function App() {
           element: <AppoinmentPage />,
           loader: authLoader,
         },
+        {
+          path: "/payment",
+          element: <PaymentPage />,
+          loader: authLoader,
+        },
       ],
     },
     {
       path: "admin",
       element: <AdminLayout />,
+      loader: adminTokenLoader,
       children: [
         {
           index: true,
-          element: <Dashboard />
+          element: <Dashboard />,
+          loader: adminAuthLoader
         },
         {
-          path: 'patient',
-          id: 'patient',
+          path: "patient",
+          id: "patient",
           loader: getPatientsLoader,
           children: [
             {
@@ -102,15 +124,15 @@ function App() {
               element: <Patients />,
             },
             {
-              path: 'edit/:id',
+              path: "edit/:id",
               element: <EditPatient />,
-              loader: getSinglePatient
-            }
-          ]
+              loader: getSinglePatient,
+            },
+          ],
         },
         {
-          path: 'doctor',
-          id: 'doctor',
+          path: "doctor",
+          id: "doctor",
           loader: getDoctorsLoader,
           children: [
             {
@@ -118,19 +140,19 @@ function App() {
               element: <Doctor />,
             },
             {
-              path: 'new',
-              element: <AddDoctor />
+              path: "new",
+              element: <AddDoctor />,
             },
             {
-              path: 'edit/:id',
+              path: "edit/:id",
               element: <EditDoctor />,
-              loader: getSingleDoctor
-            }
-          ]
+              loader: getSingleDoctor,
+            },
+          ],
         },
         {
-          path: 'specialty',
-          id: 'admin-specialty',
+          path: "specialty",
+          id: "admin-specialty",
           loader: getSpecialty,
           children: [
             {
@@ -138,33 +160,46 @@ function App() {
               element: <Specialty />,
             },
             {
-              path: 'new',
-              element: <AddSpecialty />
+              path: "new",
+              element: <AddSpecialty />,
+            },
+            {
+              path: "edit/:id",
+              element: <EditSpecialty />,
+              loader: editSpecialtyLoader,
+            },
+          ],
+        },
+        {
+          path: "appointment",
+          id: 'admin-appointment',
+          loader: getAllAppoints,
+          children: [
+            {
+              index: true,
+              element: <Appointment />,
+            },
+            {
+              path: ":id",
+              element: <AppointmentDetail />,
+              loader: appointDetailLoader
             }
           ]
         },
         {
-          path: 'appointment',
-          element: <Appointment />
+          path: "payment",
+          element: <Payment />,
         },
         {
-          path: 'payment',
-          element: <Payment />
+          path: "report",
+          element: <Report />,
         },
-        {
-          path: 'report',
-          element: <Report />
-        },
-        {
-          path: 'profile',
-          element: <Profile />
-        },
-        {
-          path: 'login',
-          element: <AdminLoginPage />
-        }
-      ]
-    }
+      ],
+    },
+    {
+      path: "/admin/login",
+      element: <AdminLoginPage />,
+    },
   ]);
 
   return (

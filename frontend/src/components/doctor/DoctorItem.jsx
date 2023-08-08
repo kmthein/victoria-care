@@ -25,6 +25,7 @@ const DoctorItem = ({
   id,
   name,
   qualification,
+  fees,
   schedules_day,
   schedules_time,
   specialty_id
@@ -51,6 +52,7 @@ const DoctorItem = ({
       name,
       schedules_day,
       schedules_time,
+      fees,
       specialty_id
     }
     dispatch(appointActions.makeAppointment(selectDoctor))

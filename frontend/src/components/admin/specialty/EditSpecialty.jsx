@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from "react";
-import {
-  Link,
-  useLoaderData,
-  useNavigate,
-  useRouteLoaderData,
-} from "react-router-dom";
-import { GrFormClose } from "react-icons/gr";
-import { AiOutlinePlusSquare } from "react-icons/ai";
 import axios from "axios";
+import React, { useState } from "react";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { url } from "../../../api/api";
 import { useToast } from "@chakra-ui/react";
 
-const AddSpecialty = () => {
+const EditSpecialty = () => {
+  const specialty = useLoaderData();
+
+  const { id, specialty_name } = specialty[0];
+
   const newDataChangeHandler = (e) => {
     setNewData(e.target.value);
   };
@@ -22,30 +19,34 @@ const AddSpecialty = () => {
 
   const navigate = useNavigate();
 
-  const addNewSpecialty = async () => {
+  const updateSpecialty = async () => {
     try {
-      const res = await axios.post(`${url}/specialty/new`, {name: newData})
+      const res = await axios.put(`${url}/specialty/edit/${id}`, {
+        name: newData,
+        id: id,
+      });
+      setNewData('');
       toast({
-        title: "New specialty added successfully.",
+        title: "Specialty updated successfully.",
         status: "success",
         duration: 9000,
         isClosable: true,
       });
-      navigate('/admin/specialty');
+      navigate("/admin/specialty");
     } catch (error) {
       toast({
-        title: "Specialty name already existed.",
+        title: "Specialty updated failed.",
         status: "error",
         duration: 9000,
         isClosable: true,
       });
     }
-  }
+  };
 
   return (
     <>
       <div className=" flex justify-between mx-8 mt-4 items-center">
-        <h5 className=" text-xl text-black/70">Add New Specialty</h5>
+        <h5 className=" text-xl text-black/70">Edit Specialty</h5>
       </div>
       <div className=" mx-8 add-form w-[60%]">
         <div className=" my-4 flex gap-4">
@@ -60,6 +61,7 @@ const AddSpecialty = () => {
               type="text"
               className=" w-full h-[40px] rounded-md bg-[#fcfcfc]"
               name="name"
+              defaultValue={specialty_name && specialty_name}
               onChange={newDataChangeHandler}
             />
           </div>
@@ -70,8 +72,11 @@ const AddSpecialty = () => {
               Cancel
             </button>
           </Link>
-          <button className=" bg-[#303B40] text-white py-[9px] w-20 rounded-md" onClick={addNewSpecialty}>
-            Add
+          <button
+            className=" bg-[#303B40] text-white py-[9px] w-20 rounded-md"
+            onClick={updateSpecialty}
+          >
+            Update
           </button>
         </div>
       </div>
@@ -79,4 +84,10 @@ const AddSpecialty = () => {
   );
 };
 
-export default AddSpecialty;
+export default EditSpecialty;
+
+export const loader = async ({ req, params }) => {
+  const id = params.id;
+  const res = await axios.post(`${url}/specialty/edit/${id}`, { id: id });
+  return res.data;
+};

@@ -9,20 +9,48 @@ export const getSpecialtyList = (req, res) => {
   });
 };
 
+export const getSingleSpecialty = (req, res) => {
+  const q = "SELECT * FROM specialty WHERE id = ?";
+
+  db.query(q, [req.body.id], (err, data) => {
+    if (err) return res.send(err);
+    return res.status(200).json(data);
+  });
+};
+
+export const updateSingleSpecialty = (req, res) => {
+  const q = "UPDATE `specialty` SET `specialty_name`= ? WHERE `id` = ?";
+
+  db.query(q, [req.body.name, req.body.id], (err, data) => {
+    if (err) return res.send(err);
+    return res.status(200).json(data);
+  });
+};
+
+export const deleteSpecialty = (req, res) => {
+  const q = "DELETE FROM `specialty` WHERE id = ?";
+
+  db.query(q, [req.body.id], (err, data) => {
+    if (err) return res.send(err);
+    return res.status(200).json(data);
+  });
+};
+
 export const addNewSpecialty = (req, res) => {
   // Check name already exist
   const q = "SELECT * FROM `specialty` WHERE specialty_name = ?";
 
   db.query(q, [req.body.name], (err, data) => {
     if (err) return res.json(err);
-    if (data.length) return res.status(409).json("Specialty name has been existed.");
+    if (data.length)
+      return res.status(409).json("Specialty name has been existed.");
 
     const q = "INSERT INTO `specialty`(`specialty_name`) VALUES (?)";
 
     db.query(q, [req.body.name], (err, data) => {
-        if(err) return res.status(500).json(err);
-        return res.status(200).json("New specialty has been added.")
-    })
+      if (err) return res.status(500).json(err);
+      return res.status(200).json("New specialty has been added.");
+    });
   });
 };
 

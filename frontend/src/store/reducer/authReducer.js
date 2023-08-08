@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialUserData = localStorage.getItem('token');
+const initialAdminData = localStorage.getItem('admin-token');
 
 const initialState = {
     currentUser: initialUserData ? JSON.parse(initialUserData) : [],
-    isLoggedIn: initialUserData ? true : false
+    currentAdmin: initialAdminData ? JSON.parse(initialAdminData) : [],
+    isLoggedIn: initialUserData ? true : false,
+    isAdminLoggedIn: initialAdminData ? true : false
 }
 const authSlice = createSlice({
     name: 'auth',
@@ -20,7 +23,15 @@ const authSlice = createSlice({
         },
         updateUser(state, action) {
             state.currentUser = action.payload;
-        }
+        },
+        adminLogin(state, action) {
+            state.currentAdmin = action.payload;
+            state.isAdminLoggedIn = true;
+        }, 
+        adminLogout(state, action) {
+            state.currentAdmin = action.payload;
+            state.isAdminLoggedIn = false;
+        },
     }
 })
 

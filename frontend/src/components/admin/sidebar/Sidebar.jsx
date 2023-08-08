@@ -87,7 +87,7 @@ const Sidebar = () => {
         <TbReportMedical className="text-xl" />
         <span>Report</span>
       </NavLink>
-      <NavLink
+      {/* <NavLink
         className={({ isActive }) =>
           isActive
             ? "bg-[#3a454b] flex items-center gap-4 py-4 px-8 hover:bg-[#3a454b]"
@@ -97,7 +97,7 @@ const Sidebar = () => {
       >
         <CgProfile className="text-xl" />
         <span>My Profile</span>
-      </NavLink>
+      </NavLink> */}
     </div>
   );
 };

@@ -57,3 +57,13 @@ export const updateDoctor = (req, res) => {
         return res.status(200).json("Doctor has been updated.");
     })
 }
+
+export const searchDoctorByName = (req, res) => {
+    const q = "SELECT * FROM doctor WHERE name LIKE (?)";
+    const value = `%${req.body.search}%`;
+  
+    db.query(q, [value], (err, data) => {
+      if (err) return res.json(err);
+      return res.status(200).json(data);
+    });
+  };

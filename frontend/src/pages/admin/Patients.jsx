@@ -49,7 +49,7 @@ const Patients = () => {
         </button> */}
       </div>
       <TableForm>
-        <div className="flex px-4 py-4 border-b-[1px] text-gray-500 font-medium sticky top-0 bg-[#f8f8f8]">
+        <div className="flex px-4 py-4 border-b-[1px] font-medium sticky top-0 bg-[#e2e2e2]">
           <p className=" w-[200px]">Name</p>
           <p className=" w-[200px]">Email</p>
           <p className=" w-[200px]">Phone</p>
@@ -85,7 +85,7 @@ const Patients = () => {
                         </AlertDialogHeader>
 
                         <AlertDialogBody>
-                          Are you sure to delete ths patient? 
+                          Are you sure to delete this patient? 
                         </AlertDialogBody>
 
                         <AlertDialogFooter>

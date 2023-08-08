@@ -46,7 +46,7 @@ const Doctor = () => {
         </Link>
       </div>
       <TableForm>
-        <div className="flex px-4 py-4 border-b-[1px] text-gray-500 font-medium sticky top-0 bg-[#f8f8f8]">
+        <div className="flex px-4 py-4 border-b-[1px] font-medium sticky top-0 bg-[#e2e2e2]">
           <p className="w-[200px]">Name</p>
           <p className="w-[200px]">Qualification</p>
           <p className="w-[180px]">Phone</p>
@@ -92,11 +92,11 @@ const Doctor = () => {
                     <AlertDialogOverlay>
                       <AlertDialogContent>
                         <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                          Delete Patient
+                          Delete Doctor
                         </AlertDialogHeader>
 
                         <AlertDialogBody>
-                          Are you sure to delete ths doctor? 
+                          Are you sure to delete this doctor? 
                         </AlertDialogBody>
 
                         <AlertDialogFooter>

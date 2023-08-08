@@ -130,7 +130,7 @@ const UserForm = ({ img, id, name, email, phone_num, dob }) => {
               </button>
             </div>
           </div> */}
-          <div className=" w-full">
+          <div className="w-[45%]">
             <button className=" bg-[#3a52af] w-full py-2 mt-4 rounded-md text-white">
               Update Profile
             </button>
