@@ -19,6 +19,7 @@ const AppointmentDetail = () => {
     prev_record,
     description,
     fees,
+    status,
     user_id,
     doctor_id,
   } = appoint[0];
@@ -66,6 +67,10 @@ const AppointmentDetail = () => {
         <div className=" mx-6 py-1 flex justify-between">
           <span className=" text-black/60">Description</span>
           <span>{description ? description : "-"}</span>
+        </div>
+        <div className=" mx-6 py-1 flex justify-between">
+          <span className=" text-black/60">Status</span>
+          <span>{status ? status : "-"}</span>
         </div>
       </div>
     </div>

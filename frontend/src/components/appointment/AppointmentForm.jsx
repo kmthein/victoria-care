@@ -153,7 +153,8 @@ const AppointmentForm = () => {
     const special = specialtyRef.current.value;
     const {name, email, doctor_name, contact_no, description} = input;
     const todayDate = new Date();
-    const appointData = { name, email, doctor_name, special, date, time, contact_no, prevRec, description, fees, todayDate, user_id, doctor_id };
+    const status = "Unpaid";
+    const appointData = { name, email, doctor_name, special, date, time, contact_no, prevRec, description, fees, status, todayDate, user_id, doctor_id };
     dispatch(appointActions.confirmAppointment(appointData));
     const res = await axios.post(`${url}/appointment/add`, {values: appointData})
     navigate('/payment');

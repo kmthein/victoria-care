@@ -8,7 +8,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
@@ -21,9 +21,22 @@ const CardForm = () => {
 
   const [disabled, setDisabled] = useState(true);
 
+  const [appointID, setAppointID] = useState('');
+
   const fees = useSelector((state) => state.appoint.selectedDoctor.fees);
 
   const {name, id: userId} = useSelector((state) => state.auth.currentUser);
+
+  const getAppointIDHandler = async () => {
+    const res = await axios.post(`${url}/appointment/get-id`, {id: userId});
+    setAppointID(res.data[0].id);
+  }
+
+  console.log(appointID);
+
+  useEffect(() => {
+    getAppointIDHandler();
+  }, [])
 
   const savePrice = (+fees + 3);
 
@@ -50,7 +63,8 @@ const CardForm = () => {
       date: currentDate,
       time: currentTime,
       patient_id: userId,
-      patient_name: name
+      patient_name: name,
+      appointment_id: appointID,
     }
     setIsSubmitting(true);
     const {error, paymentMethod} = await stripe.createPaymentMethod({
@@ -75,6 +89,7 @@ const CardForm = () => {
             duration: 9000,
             isClosable: true,
           });
+          await axios.post(`${url}/appointment/update-status`, {pid: userId, aid: appointID});
         }
         setIsSubmitting(false);      
       } catch (error) {

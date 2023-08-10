@@ -9,7 +9,7 @@ const AboutUs = () => {
   return (
     <div className=" relative w-full xl:w-[80%] xl:h-[700px] mx-auto inter text-[#53748B]">
       <div className=" flex flex-col-reverse xl:flex xl:flex-row py-[120px]">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 0.5 }} className="  relative w-full xl:w-[50%]">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 0.5 }} className="  relative w-full xl:w-[50%]">
           <img
             src={img1}
             className=" top-60 xl:top-0 w-[200px] h-[200px] xl:w-[300px] xl:h-[300px] object-cover ml-8 md:ml-[30%] xl:ml-0"

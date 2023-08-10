@@ -10,7 +10,7 @@ import {
   useDisclosure,
   Button,
 } from "@chakra-ui/react";
-import authImg from "../../assets/images/auth-img.png";
+import authImg from "../../assets/images/auth-img2.png";
 import axios from "axios";
 import { url } from "../../api/api";
 import { useToast } from "@chakra-ui/react";

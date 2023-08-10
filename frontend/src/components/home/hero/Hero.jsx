@@ -1,5 +1,5 @@
 import React from "react";
-import heroImg from "../../../assets/images/hero-img.png";
+import heroImg from "../../../assets/images/hero-img2.png";
 import wave from "../../../assets/images/wave 1.png";
 import { delay, motion } from "framer-motion";
 
@@ -65,9 +65,9 @@ const Hero = () => {
           </motion.div>
           <motion.div
             className="w-full md:w-[50%] mt-[120px]"
-            initial={{ x: "+100vw" }}
-            animate={{ x: 0 }}
-            transition={{ delay: 0.2, duration: 0.2 }}
+            initial={{ opacity: 0.2 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
           >
             <img src={heroImg} alt="hero-img" className=" w-[80%] mx-auto" />
           </motion.div>

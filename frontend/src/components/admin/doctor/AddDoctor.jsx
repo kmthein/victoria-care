@@ -57,6 +57,14 @@ const AddDoctor = () => {
       });
       return;
     }
+    if(schtime == [] || schtime.length < 1) {
+      toast({
+        title: `Please fill available time.`,
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
     const values = {
         ...newData,
         schedule_day: JSON.stringify(schday),
@@ -64,7 +72,12 @@ const AddDoctor = () => {
         specialty_id: specialtyID,
     };
     const res = await axios.post(`${url}/doctor/add`, {values: values})
-    navigate('/admin/doctor')
+    navigate('/admin/doctor');
+    toast({
+      title: `New doctor added.`,
+      status: "success",
+      isClosable: true,
+    });
     setNewData(initialInput);
   };
 
@@ -79,11 +92,27 @@ const AddDoctor = () => {
   };
 
   const addNewDayHandler = () => {
+    if(dayInput != "Monday" && dayInput != "Tuesday" && dayInput != "Wednesday" && dayInput != "Thursday" && dayInput != "Friday" && dayInput != "Saturday" && dayInput != "Sunday" ) {
+      toast({
+        title: `Please fill valid day. (eg- Sunday, Monday)`,
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
     setSchday([...schday, {day: dayInput}])
     setDayInput('');
   };
   
   const addNewTimeHandler = () => {
+    if(timeInput == "") {
+      toast({
+        title: `Please fill valid time.`,
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
     setSchtime([...schtime, {time: timeInput}])
     setTimeInput('');
   };
@@ -210,7 +239,7 @@ const AddDoctor = () => {
                   setDayInput(e.target.value)
                 }}
               />
-                <AiOutlinePlusSquare className="text-2xl ml-3" onClick={addNewDayHandler} />
+                <AiOutlinePlusSquare className="text-2xl ml-3 cursor-pointer" onClick={addNewDayHandler} />
             </div>
             
           </div>
@@ -251,7 +280,7 @@ const AddDoctor = () => {
                   setTimeInput(e.target.value)
                 }}
               />
-                <AiOutlinePlusSquare className="text-2xl ml-3" onClick={addNewTimeHandler} />
+                <AiOutlinePlusSquare className="text-2xl ml-3 cursor-pointer" onClick={addNewTimeHandler} />
             </div>
           </div>
         </div>
