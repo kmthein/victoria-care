@@ -38,7 +38,7 @@ export const changePassword = (req, res) => {
     if (err) return res.json(err);
     return res.status(200).json(data);
   });
-};
+}; 
 
 export const login = (req, res) => {
   // Check email
