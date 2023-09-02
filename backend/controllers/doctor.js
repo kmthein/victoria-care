@@ -22,11 +22,11 @@ export const getSingleDoctor = (req, res) => {
 }
 
 export const addNewDoctor = (req, res) => {
-    const q = "INSERT INTO `doctor` (`name`, `qualification`, `contact_no`, `schedule_day`, `schedule_time`, `specialty_id`) VALUES (?)";
+    const q = "INSERT INTO `doctor` (`name`, `qualification`, `contact_no`, `doctor_fees`, `schedule_day`, `schedule_time`, `specialty_id`) VALUES (?)";
 
-    const {name, qualification, contact_no, schedule_day, schedule_time, specialty_id} = req.body.values;
+    const {name, qualification, contact_no, fees, schedule_day, schedule_time, specialty_id} = req.body.values;
 
-    const values = [name, qualification, contact_no, schedule_day, schedule_time, specialty_id]
+    const values = [name, qualification, contact_no, fees, schedule_day, schedule_time, specialty_id]
 
     db.query(q, [values], (err, data) => {
         if(err) return res.status(500).json(err);

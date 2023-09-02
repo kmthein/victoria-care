@@ -17,7 +17,7 @@ export const totalSpecialty = (req, res) => {
 }
 
 export const totalUser = (req, res) => {
-    const q = `SELECT COUNT(id) as total FROM users`;
+    const q = `SELECT COUNT(id) as total FROM users WHERE user_role_id = 1`;
     db.query(q, (err, data) => {
         if(err) return res.status(500).json(err);
         return res.status(200).json(data);

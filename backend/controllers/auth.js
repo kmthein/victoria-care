@@ -52,7 +52,7 @@ export const login = (req, res) => {
       data[0].password
     );
     if (!isPasswordCorrect)
-      return res.status(400).json("Wrong username or password!");
+      return res.status(400).json("Wrong email or password!");
     const token = jwt.sign({ id: data[0].id }, "jwtkey");
     const { password, ...other } = data[0];
     res
@@ -61,6 +61,34 @@ export const login = (req, res) => {
       })
       .status(200)
       .json(other);
+  });
+};
+
+export const adminRegister = (req, res) => {
+  // Check user already exist
+  const todayDate = new Date();
+  const q = "SELECT * FROM `users` WHERE email = ?";
+  db.query(q, [req.body.email], (err, data) => {
+    if (err) return res.json(err);
+    if (data.length) return res.status(409).json("Email has already existed!");
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(req.body.password, salt);
+    // Create new user
+    const q =
+      "INSERT INTO `users`(`name`, `email`, `phone_num`, `dob`, `created_at`, `password`, `user_role_id`) VALUES (?)";
+    const values = [
+      req.body.name,
+      req.body.email,
+      req.body.phone_num,
+      req.body.dob,
+      todayDate,
+      hash,
+      2,
+    ];
+    db.query(q, [values], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json("Admin registeration completed.");
+    });
   });
 };
 

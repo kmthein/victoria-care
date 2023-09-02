@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import whiteLogo from "../../../assets/images/white-logo.png";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { BsFillBellFill } from "react-icons/bs";
@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../../store/reducer/authReducer";
 import { BeatLoader } from "react-spinners";
+import { url } from "../../../api/api";
+import axios from "axios";
 
 const Navbar = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,10 +44,30 @@ const Navbar = () => {
       });
       navigate("/admin/login");
       setIsSubmitting(false);
-    }, [1000])
+    }, [1000]);
   };
 
-  const currentAdmin = useSelector(state => state.auth.currentAdmin);
+  const currentAdmin = useSelector((state) => state.auth.currentAdmin);
+
+  const { id, name, images } = currentAdmin;
+
+  const [userImg, setUserImg] = useState();
+
+  const getCurrentUser = async () => {
+    const res = await axios.post(`${url}/user/admin`, { id: id });
+    const userImage = res.data[0].images;
+    setUserImg(res.data[0].images);
+    dispatch(
+      authActions.updateAdmin({
+        ...currentAdmin,
+        images: userImage,
+      })
+    );
+  };
+
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
 
   return (
     <div className=" bg-[#273135] text-white py-7">
@@ -69,27 +91,38 @@ const Navbar = () => {
             </span>
           </div> */}
           <div className=" flex gap-4 items-center mr-8">
-            {/* <img
-              src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"
-              className=" w-12 h-12 rounded-full object-cover mx-auto"
-            /> */}
+            {images != "" ? (
+              <img
+                src={`${url}/upload/${images}`}
+                className=" w-12 h-12 rounded-full object-cover mx-auto"
+              />
+            ) : (
+              <img
+                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                className=" w-12 h-12 rounded-full object-cover mx-auto"
+              />
+            )}
             <div>
               <Menu>
                 <MenuButton>
                   <div className=" flex gap-2">
                     <div className=" text-left">
-                      <p className="text-lg font-medium">{currentAdmin.name}</p>
+                      <p className="text-lg font-medium">{name}</p>
                       <p className="text-sm text-gray-200">Admin</p>
                     </div>
                     <BiChevronDown className=" mt-[5px] text-xl" />
                   </div>
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={logoutHandler}><p className=" text-black">{isSubmitting ? (
-                  <BeatLoader color="#fff" size={7} />
-                ) : (
-                  "Logout"
-                )}</p></MenuItem>
+                  <MenuItem onClick={logoutHandler}>
+                    <p className=" text-black">
+                      {isSubmitting ? (
+                        <BeatLoader color="#fff" size={7} />
+                      ) : (
+                        "Logout"
+                      )}
+                    </p>
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </div>

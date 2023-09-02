@@ -24,6 +24,9 @@ const authSlice = createSlice({
         updateUser(state, action) {
             state.currentUser = action.payload;
         },
+        updateAdmin(state, action) {
+            state.currentAdmin = action.payload;
+        },
         adminLogin(state, action) {
             state.currentAdmin = action.payload;
             state.isAdminLoggedIn = true;

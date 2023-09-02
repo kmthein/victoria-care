@@ -5,7 +5,7 @@ import { FaKey } from "react-icons/fa";
 import axios from "axios";
 import { url } from "../../../api/api";
 import { useToast } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../../store/reducer/authReducer";
 import { BeatLoader } from "react-spinners";
@@ -91,6 +91,7 @@ const LoginForm = () => {
                 )}
           </button>
         </div>
+        <p className="text-center text-white/70 mb-6">Don't have an account? <Link to='/admin/register'><span className=" ml-2 border-b-[1px] hover:text-gray-500">Sign up</span></Link></p>
       </div>
     </div>
   );

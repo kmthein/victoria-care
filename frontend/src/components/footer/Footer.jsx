@@ -28,11 +28,11 @@ const Footer = () => {
                 </div>
                 <div className=' sm:ml-20'>
                     <div className=' sm:flex gap-2 ml-10 mt-4 sm:ml-0 sm:mt-0 text-[15px] footer-nav'>
-                        <Link className=' sm:border-r-2 pr-2'>Home</Link>
-                        <Link className=' sm:border-r-2 pr-2'>About</Link>
-                        <Link className=' sm:border-r-2 pr-2'>Doctor</Link>
-                        <Link className=' sm:border-r-2 pr-2'>Specialty</Link>
-                        <Link>Contact</Link>
+                        <Link to='/' className=' sm:border-r-2 pr-2'>Home</Link>
+                        <Link to='/about' className=' sm:border-r-2 pr-2'>About</Link>
+                        <Link to='/doctor' className=' sm:border-r-2 pr-2'>Doctor</Link>
+                        <Link to='/specialty' className=' sm:border-r-2 pr-2'>Specialty</Link>
+                        <Link to='/contact'>Contact</Link>
                     </div>
                         <p className='text-center mt-2 text-white/80'>© 2023 kmthein</p>
                 </div>

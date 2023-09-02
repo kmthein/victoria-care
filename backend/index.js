@@ -7,6 +7,8 @@ import userRoutes from "./routes/user.js";
 import appointRoutes from "./routes/appointment.js";
 import reportRoutes from "./routes/report.js";
 import countRoutes from "./routes/count.js";
+import contactRoutes from "./routes/contact.js";
+import fileRoutes from "./routes/storage.js";
 
 export const app = express();
 
@@ -18,6 +20,8 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
     next();
 });
+
+app.use(express.static('public'));
 
 app.use('/api/auth', authRoutes)
 
@@ -32,6 +36,10 @@ app.use('/appointment', appointRoutes)
 app.use('/report', reportRoutes)
 
 app.use('/count', countRoutes)
+
+app.use('/contact', contactRoutes)
+
+app.use('/file', fileRoutes)
 
 app.listen(8800, () => {
     console.log("Connected");

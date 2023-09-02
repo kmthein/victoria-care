@@ -19,6 +19,16 @@ export const getUser = (req, res) => {
     })
 }
 
+export const getAdmin = (req, res) => {
+    const q = "SELECT * FROM users WHERE user_role_id = 2 AND id = ?";
+    const id = req.body.id
+
+    db.query(q, [id], (err, data) => {
+        if(err) return res.status(500).json(err);
+        return res.status(200).json(data);
+    })
+}
+
 export const updateUser = (req, res) => {
     const userId = req.body.id;
 

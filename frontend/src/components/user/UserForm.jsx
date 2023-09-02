@@ -1,18 +1,32 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { url } from "../../api/api";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/reducer/authReducer";
 import { useToast } from "@chakra-ui/react";
 
 const UserForm = ({ img, id, name, email, phone_num, dob }) => {
+  const currentUser = useSelector((state) => state.auth.currentUser);
+
   const initialInput = {
     id,
     name,
     email,
     phone_num,
     dob,
+  };
+
+  const [file, setFile] = useState();
+
+  const fileChangeHandler = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const inputRef = useRef(null);
+
+  const handleImageClick = () => {
+    inputRef.current.click();
   };
 
   const [input, setInput] = useState(initialInput);
@@ -22,21 +36,45 @@ const UserForm = ({ img, id, name, email, phone_num, dob }) => {
   };
 
   const navigate = useNavigate();
-;
   const dispatch = useDispatch();
 
-  const toast = useToast()
+  const toast = useToast();
 
   const updateUserHandler = async (e) => {
     e.preventDefault();
-    const res = await axios.put(`${url}/user/update`, {values: input, id: id})
-    dispatch(authActions.updateUser(input))
+    const res = await axios.put(`${url}/user/update`, {
+      values: input,
+      id: id,
+    });
+    // dispatch(authActions.updateUser(input));
     toast({
-        title: `Profile has been updated.`,
-        status: "success",
-        isClosable: true,
-      });
+      title: `Profile has been updated.`,
+      status: "success",
+      isClosable: true,
+    });
+    if (file) {
+      const formData = new FormData();
+      formData.append("image", file);
+      await axios.post(`${url}/file/upload/${id}`, formData);
+      const response = await axios.post(`${url}/user/patients`, { id: id });
+      const userImage = response.data[0].images || img;
+      const newData = {
+        ...input,
+        img: userImage,
+      };
+      dispatch(authActions.updateUser(newData));
+    } else {
+      const userImage = img;
+      const newData = {
+        ...input,
+        img: userImage,
+      };
+      dispatch(authActions.updateUser(newData));
+    }
+
+    setFile();
   };
+
   return (
     <form onSubmit={updateUserHandler}>
       <div className=" mt-4 mb-8">
@@ -110,11 +148,11 @@ const UserForm = ({ img, id, name, email, phone_num, dob }) => {
               onChange={inputChangeHandler}
             />
           </div>
-          {/* <div className=" my-4 flex items-center">
+          <div className=" my-4 flex items-center">
             <div className=" w-[110px]">
-              {img ? (
+              {file ? (
                 <img
-                  src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"
+                  src={URL.createObjectURL(file)}
                   className="  w-16 h-16 rounded-full object-cover"
                 />
               ) : (
@@ -124,14 +162,26 @@ const UserForm = ({ img, id, name, email, phone_num, dob }) => {
                 />
               )}
             </div>
-            <div>
-              <button className=" bg-[#BEE3F8] py-2 px-1 rounded-md text-sm">
+            <div onClick={handleImageClick}>
+              <button
+                type="button"
+                className=" bg-[#BEE3F8] py-2 px-1 rounded-md text-sm"
+              >
                 Upload Photo
               </button>
+              <input
+                type="file"
+                ref={inputRef}
+                onChange={fileChangeHandler}
+                className=" hidden"
+              />
             </div>
-          </div> */}
+          </div>
           <div className="w-[45%]">
-            <button className=" bg-[#3a52af] w-full py-2 mt-4 rounded-md text-white">
+            <button
+              type="submit"
+              className=" bg-[#3a52af] w-full py-2 mt-4 rounded-md text-white"
+            >
               Update Profile
             </button>
           </div>

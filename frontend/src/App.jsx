@@ -22,7 +22,7 @@ import Specialty, { loader as getSpecialty } from "./pages/admin/Specialty";
 import Appointment, { loader as getAllAppoints } from "./pages/admin/Appointment";
 import Payment from "./pages/admin/Payment";
 import Report from "./pages/admin/Report";
-import Profile from "./pages/admin/Profile";
+import Profile from "./pages/admin/AdminProfile";
 import AddDoctor from "./components/admin/doctor/AddDoctor";
 import EditPatient, {
   loader as getSinglePatient,
@@ -35,9 +35,12 @@ import EditSpecialty, {
   loader as editSpecialtyLoader,
 } from "./components/admin/specialty/EditSpecialty";
 import DoctorResultPage from "./pages/DoctorResultPage";
-import PaymentPage from "./pages/PaymentPage";
+import PaymentPage, { loader as paymentIdLoader} from "./pages/PaymentByID";
 import AppointmentDetail, { loader as appointDetailLoader } from "./pages/admin/AppointmentDetail";
 import { adminAuthLoader, adminTokenLoader } from "./util/adminAuth";
+import AdminRegister from "./pages/admin/AdminRegister";
+import AdminProfile from "./pages/admin/AdminProfile";
+import PaymentByID from "./pages/PaymentByID";
 
 function App() {
   const router = createBrowserRouter([
@@ -188,17 +191,35 @@ function App() {
         },
         {
           path: "payment",
-          element: <Payment />,
+          children: [
+            {
+              index: true,
+              element: <Payment />,
+            },
+            {
+              path: ":currentId",
+              element: <PaymentByID />,
+              loader: appointDetailLoader
+            }
+          ]
         },
         {
           path: "report",
           element: <Report />,
         },
+        {
+          path: "profile",
+          element: <AdminProfile />,
+        }
       ],
     },
     {
       path: "/admin/login",
       element: <AdminLoginPage />,
+    },
+    {
+      path: "/admin/register",
+      element: <AdminRegister />,
     },
   ]);
 

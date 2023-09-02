@@ -48,7 +48,7 @@ const Doctor = () => {
       <TableForm>
         <div className="flex px-4 py-4 border-b-[1px] font-medium sticky top-0 bg-[#e2e2e2]">
           <p className="w-[200px]">Name</p>
-          <p className="w-[200px]">Qualification</p>
+          <p className="w-[170px]">Fees</p>
           <p className="w-[180px]">Phone</p>
           <p className="w-[100px]">Day</p>
           <p className="w-[200px]">Time</p>
@@ -63,7 +63,7 @@ const Doctor = () => {
             return (
               <div key={doctor.id} className="flex px-4 py-4 border-b-[1px] bg-[#f8f8f8]">
                 <p className="w-[200px]">{doctor.name}</p>
-                <p className="w-[200px]">{doctor.qualification}</p>
+                <p className="w-[170px]">${doctor.doctor_fees}</p>
                 <p className="w-[180px]">{doctor.contact_no}</p>
                 <p className="w-[100px]">
                   {days.map((sche) => (

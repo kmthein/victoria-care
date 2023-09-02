@@ -56,7 +56,25 @@ const Feedback = () => {
                 similique repellat saepe eligendi itaque nihil voluptas rem cum
                 minima aperiam provident tempora.
               </p>
-              <span className="mt-2 block text-right font-bold">Sarah</span>
+              <span className="mt-2 block text-right font-bold">Johnson</span>
+            </div>
+          </div>
+        </SplideSlide>
+        <SplideSlide>
+          <div className="py-20">
+            <div className="relative bg-[#D9D9D9] w-[370px] rounded-lg mx-auto py-8 px-5">
+              <img
+                src={feed3}
+                className="top-[-45px] left-[140px] w-[90px] h-[90px] absolute object-cover object-center rounded-full"
+                alt="feed"
+              />
+              <p className=" mt-6 text-[14px]">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Molestias corrupti quidem ut placeat eaque cumque pariatur esse,
+                similique repellat saepe eligendi itaque nihil voluptas rem cum
+                minima aperiam provident tempora.
+              </p>
+              <span className="mt-2 block text-right font-bold">George</span>
             </div>
           </div>
         </SplideSlide>

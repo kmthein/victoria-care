@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useLoaderData, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLoaderData, useNavigate } from "react-router-dom";
 import {
   Tabs,
   TabList,
@@ -28,6 +28,24 @@ const UserProfilePage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toast = useToast();
+
+  const [userImg, setUserImg] = useState();
+
+  const getCurrentUser = async () => {
+    const res = await axios.post(`${url}/user/patients`, { id: id });
+    const userImage = res.data[0].images;
+    setUserImg(res.data[0].images);
+    dispatch(
+      authActions.updateUser({
+        ...currentUser,
+        img: userImage,
+      })
+    );
+  };
+
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
 
   // const logoutHandler = () => {
   //   setIsSubmitting(true);
@@ -67,21 +85,27 @@ const UserProfilePage = () => {
     getAppointmentById();
   }, []);
 
+  const makePayment = async (currentId) => {
+    console.log(currentId);
+    const res = await axios.post(`${url}/appointment/detail`, {id: currentId})
+  }
+
   return (
     <div>
       <div className=" w-[70%] mx-auto my-8 inter">
         <div className=" flex gap-8">
           <div className=" w-[20%] ">
             <div className=" text-center">
-              {img ? (
+              {img != "" ? (
                 <img
-                  src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"
-                  className=" w-20 h-20 rounded-full object-cover mx-auto"
+                  src={`${url}/upload/${img}`}
+                  className=" w-40 h-40 rounded-full object-center object-cover mx-auto"
                 />
-              ) : (
+              ) :
+                (
                 <img
                   src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                  className=" w-20 h-20 rounded-full object-cover mx-auto"
+                  className=" w-40 h-40 rounded-full object-cover mx-auto"
                 />
               )}
               <div className=" mt-4">
@@ -98,7 +122,7 @@ const UserProfilePage = () => {
               </div> */}
             </div>
           </div>
-          <div className=" w-[90%]">
+          <div className=" w-[80%]">
             <div>
               <Tabs variant="soft-rounded" colorScheme="blue">
                 <TabList>
@@ -117,21 +141,27 @@ const UserProfilePage = () => {
                           <p className=" w-[250px]">Doctor</p>
                           <p className=" w-[200px]">Date</p>
                           <p className=" w-[200px]">Time</p>
+                          {/* <p className=" w-[200px]">Status</p> */}
                         </div>
                         {userHistory && userHistory.length > 0 ? (
-                        userHistory.map((h) => (
-                          <div key={h.id} className="flex px-4 py-4 border-b-[1px]">
-                            <p className=" w-[200px]">{h.patient_name}</p>
-                            <p className=" w-[250px]">{h.doctor_name}</p>
-                            <p className=" w-[200px]">{h.date}</p>
-                            <p className=" w-[200px]">{h.time}</p>
-                          </div>
-                        ))
-                      ) : (
-                        <p className=" mt-20 text-center">No history yet.</p>
-                      )}
+                          userHistory.map((h) => (
+                            <div
+                              key={h.id}
+                              className="flex px-4 py-4 border-b-[1px]"
+                            >
+                              <p className=" w-[200px]">{h.patient_name}</p>
+                              <p className=" w-[250px]">{h.doctor_name}</p>
+                              <p className=" w-[200px]">{h.date}</p>
+                              <p className=" w-[200px]">{h.time}</p>
+                              {/* <p className=" w-[200px]">{h.status == "Unpaid" ? (
+                                <Link to={`/payment/${h.id}`}>Make Payment</Link>
+                              ): ("Done")}</p> */}
+                            </div>
+                          ))
+                        ) : (
+                          <p className=" mt-20 text-center">No history yet.</p>
+                        )}
                       </TableForm>
-                      
                     </div>
                   </TabPanel>
                   <TabPanel>
