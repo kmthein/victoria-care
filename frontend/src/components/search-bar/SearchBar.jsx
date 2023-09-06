@@ -35,10 +35,7 @@ const SearchBar = ({ placeholder, submitType }) => {
       navigate("/specialty-search");
   }
   }
-  
 
- 
-  
   const navigate = useNavigate();
   
   return (

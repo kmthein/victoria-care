@@ -12,13 +12,12 @@ import DoctorItem from "../components/doctor/DoctorItem";
 const DoctorResultPage = () => {
   const doctors = useSelector((state) => state.search.searchDoctor);
 
-  console.log(doctors);
-
   return (
     <>
       <Breadcrumb title={"Doctor"} />
       <div className="w-[50%] mx-auto min-h-[80vh]">
-        <h3 className=" text-lg font-semibold mt-8">Search Result</h3>
+      <SearchBar placeholder={"Search by doctor name"} submitType={"searchDoctor"} />
+        <h3 className=" text-lg font-semibold mt-8">Available Doctors</h3>
         <div className="">
           {doctors.length > 0 ? (
             doctors.map((doctor) => (

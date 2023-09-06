@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import whiteLogo from "../../../assets/images/white-logo.png";
 import { BsPersonFill } from "react-icons/bs";
 import { FaKey } from "react-icons/fa";
@@ -29,21 +29,29 @@ const RegisterForm = () => {
   const registerSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-        if (
-            input.name == "" ||
-            input.email == "" ||
-            input.phone_num == "" ||
-            input.dob == "" ||
-            input.password == "" ||
-            input.cpassword == ""
-          ) {
-            toast({
-              title: `Please fill the information.`,
-              status: "error",
-              isClosable: true,
-            });
-            return;
-          }
+      if (
+        input.name == "" ||
+        input.email == "" ||
+        input.phone_num == "" ||
+        input.dob == "" ||
+        input.password == "" ||
+        input.cpassword == ""
+      ) {
+        toast({
+          title: `Please fill all information.`,
+          status: "error",
+          isClosable: true,
+        });
+        return;
+      }
+      if(input.password != input.cpassword) {
+        toast({
+          title: `Password didn't match, try again.`,
+          status: "error",
+          isClosable: true,
+        });
+        return;
+      }
       const res = await axios.post(`${url}/api/auth/admin-register`, input);
       toast({
         title: "Account created.",
@@ -53,7 +61,7 @@ const RegisterForm = () => {
         isClosable: true,
       });
       setRegInput(initialInput);
-      navigate('/admin/login');
+      navigate("/admin/login");
     } catch (error) {
       toast({
         title: error.response.data,
@@ -62,6 +70,16 @@ const RegisterForm = () => {
       });
     }
   };
+
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (input.password != input.cpassword) {
+      setError("Password didn't match");
+    } else {
+      setError("");
+    }
+  }, [input.cpassword]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -108,7 +126,7 @@ const RegisterForm = () => {
           </div>
           <div className=" w-[50%]">
             <input
-              type="text"
+              type="date"
               placeholder="Date of Birth"
               className=" bg-transparent pb-1 border-[#BCBCBC] w-full border-b-[1px] text-[#dfdfdf]"
               name="dob"
@@ -135,6 +153,13 @@ const RegisterForm = () => {
               onChange={inputChangeHandler}
             />
           </div>
+        </div>
+        <div className="mt-2">
+        {error && error != "" && (
+          <span className=" text-red-500 font-medium text-[15px]">
+            {error}
+          </span>
+        )}
         </div>
         <div className=" flex justify-center mt-12 mb-6">
           <button

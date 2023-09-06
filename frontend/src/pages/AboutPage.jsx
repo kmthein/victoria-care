@@ -15,9 +15,6 @@ const AboutPage = () => {
       <Reveal>
         <Features />
       </Reveal>
-      <Reveal>
-        <Doctor />
-      </Reveal>
     </>
   );
 };

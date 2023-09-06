@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -19,7 +19,8 @@ import Cookie from "js-cookie";
 import { useDispatch } from "react-redux";
 import { searchActions } from "../../store/reducer/searchReducer";
 import { authActions } from "../../store/reducer/authReducer";
-import { BeatLoader } from 'react-spinners'
+import { BeatLoader } from "react-spinners";
+import { IoMdArrowBack } from "react-icons/io";
 
 const AuthForm = ({
   isOpen,
@@ -29,6 +30,12 @@ const AuthForm = ({
   onRegOpen,
   onRegClose,
 }) => {
+  const {
+    isOpen: isPassOpen,
+    onOpen: onPassOpen,
+    onClose: onPassClose,
+  } = useDisclosure();
+
   const initialRegInput = {
     name: "",
     email: "",
@@ -43,6 +50,12 @@ const AuthForm = ({
     password: "",
   };
 
+  const initialPassInput = {
+    email: "",
+    password: "",
+    cpassword: "",
+  };
+
   const [regInput, setRegInput] = useState(initialRegInput);
 
   const [loginInput, setLoginInput] = useState(initialLoginInput);
@@ -54,6 +67,16 @@ const AuthForm = ({
   const regChangeHandler = (e) => {
     setRegInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  useEffect(() => {
+    if (regInput.password != regInput.cpassword) {
+      setError("Password was not match.");
+    } else {
+      setError("");
+    }
+  }, [regInput.cpassword]);
+
+  const [passError, setPassError] = useState("");
 
   const regSubmitHandler = async (e) => {
     e.preventDefault();
@@ -68,6 +91,14 @@ const AuthForm = ({
       ) {
         toast({
           title: `Please fill the information.`,
+          status: "error",
+          isClosable: true,
+        });
+        return;
+      }
+      if (regInput.password != regInput.cpassword) {
+        toast({
+          title: `Password doesn't match.`,
           status: "error",
           isClosable: true,
         });
@@ -94,6 +125,20 @@ const AuthForm = ({
 
   const loginChangeHandler = (e) => {
     setLoginInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const [newPassInput, setNewPassInput] = useState(initialPassInput);
+
+  useEffect(() => {
+    if (newPassInput.password != newPassInput.cpassword) {
+      setPassError("Password was not match.");
+    } else {
+      setPassError("");
+    }
+  }, [newPassInput.cpassword]);
+
+  const passwordChangeHandler = (e) => {
+    setNewPassInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -137,7 +182,53 @@ const AuthForm = ({
         }
       }
       setIsSubmitting(false);
-    }, [1000])
+    }, [1000]);
+  };
+
+  const passwordResetHandler = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    if (newPassInput.password != newPassInput.cpassword) {
+      toast({
+        title: `Password doesn't match.`,
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
+    setTimeout(async () => {
+      try {
+        const res = await axios.post(
+          `${url}/api/auth/reset-password`,
+          newPassInput
+        );
+        onPassClose();
+        toast({
+          title: "Password Reset Successful.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        onOpen();
+        setNewPassInput(initialPassInput);
+      } catch (error) {
+        if (error.response.status == 404) {
+          toast({
+            title: error.response.data,
+            status: "error",
+            isClosable: true,
+          });
+        }
+        if (error.response.status == 400) {
+          toast({
+            title: error.response.data,
+            status: "error",
+            isClosable: true,
+          });
+        }
+      }
+      setIsSubmitting(false);
+    }, [1000]);
   };
 
   return (
@@ -178,17 +269,19 @@ const AuthForm = ({
                 onClick={loginSubmitHandler}
                 disabled={isSubmitting}
               >
-                {isSubmitting ? (
-                  <BeatLoader color="#fff" size={7} />
-                ) : (
-                  "Login"
-                )}
+                {isSubmitting ? <BeatLoader color="#fff" size={7} /> : "Login"}
               </button>
             </div>
-            <div className=" flex justify-center mt-6">
-              <span className=" text-center text-black text-sm">
+            <div className=" flex justify-between mt-6 mx-4">
+              <span
+                className=" text-center text-sm text-[#4156aa] cursor-pointer hover:text-[#27387c] hover:underline"
+                onClick={() => {
+                  onClose();
+                  onRegOpen();
+                }}
+              >
                 Don't have an account?{" "}
-                <span
+                {/* <span
                   className="font-normal ml-1 text-[#4156aa] cursor-pointer hover:text-[#27387c] hover:underline"
                   onClick={() => {
                     onClose();
@@ -196,8 +289,19 @@ const AuthForm = ({
                   }}
                 >
                   Sign Up
-                </span>
+                </span> */}
               </span>
+              <div className="mb-2">
+                <p
+                  className="text-right text-sm text-[#4156aa] cursor-pointer hover:text-[#27387c] hover:underline"
+                  onClick={() => {
+                    onClose();
+                    onPassOpen();
+                  }}
+                >
+                  Forgot password
+                </p>
+              </div>
             </div>
           </div>
         </ModalContent>
@@ -205,7 +309,7 @@ const AuthForm = ({
       <Modal isOpen={isRegOpen} size={"xl"} onClose={onRegClose}>
         <ModalOverlay />
         <ModalContent>
-          <div className=" bg-[#576CBC] py-8">
+          <div className=" bg-[#576CBC] pt-8 pb-2">
             <div className=" mx-8 flex items-center">
               <div className="w-[40%]">
                 <img src={authImg} className="w-80 mx-auto" alt="auth-bg" />
@@ -216,19 +320,25 @@ const AuthForm = ({
                     Register Now
                   </h1>
                   <div className="my-6">
+                    <label htmlFor="" className="text-white">
+                      Name
+                    </label>
                     <input
                       type="text"
-                      placeholder="Name"
-                      className="w-full py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mb-6"
+                      placeholder="Your name"
+                      className="w-full py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mt-1 mb-2"
                       onChange={regChangeHandler}
                       name="name"
                       id="name"
                       required
                     />
+                    <label htmlFor="" className="text-white">
+                      Email
+                    </label>
                     <input
                       type="email"
-                      placeholder="Email Address"
-                      className="w-full py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mb-6"
+                      placeholder="Your email address"
+                      className="w-full py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mt-1 mb-2"
                       onChange={regChangeHandler}
                       name="email"
                       required
@@ -239,39 +349,57 @@ const AuthForm = ({
                     className="w-full py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mb-6"
                   /> */}
                     <div className="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Phone Number"
-                        className="w-[50%] py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mb-6"
-                        onChange={regChangeHandler}
-                        name="phone_num"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Date of Birth"
-                        className="w-[50%] py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mb-6"
-                        onChange={regChangeHandler}
-                        name="dob"
-                      />
+                      <div>
+                        <label htmlFor="" className="text-white">
+                          Phone
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Phone Number"
+                          className="w-full py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mt-1 mb-2"
+                          onChange={regChangeHandler}
+                          name="phone_num"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="" className="text-white">
+                          Date of Birth
+                        </label>
+                        <input
+                          type="date"
+                          placeholder="Date of Birth"
+                          className="w-full py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mt-1 mb-2"
+                          onChange={regChangeHandler}
+                          name="dob"
+                        />
+                      </div>
                     </div>
+                    <label htmlFor="" className="text-white">
+                      Password
+                    </label>
                     <input
                       type="password"
                       placeholder="Password"
-                      className="w-full py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mb-6"
+                      className="w-full py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mt-1 mb-2"
                       onChange={regChangeHandler}
                       name="password"
                     />
+                    <label htmlFor="" className="text-white">
+                      Confirm Password
+                    </label>
                     <input
                       type="password"
                       placeholder="Confirm Password"
-                      className="w-full py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full"
+                      className="w-full py-2 bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mt-1 mb-2"
                       onChange={regChangeHandler}
                       name="cpassword"
                     />
+                    {error && error != "" && (
+                      <span className=" text-yellow-300 font-medium text-[15px]">
+                        {error}
+                      </span>
+                    )}
                   </div>
-                  {error && error != "" && (
-                    <p className=" text-white">{error}</p>
-                  )}
                 </form>
               </div>
             </div>
@@ -299,6 +427,91 @@ const AuthForm = ({
                 </span>
               </span>
             </div>
+          </div>
+        </ModalContent>
+      </Modal>
+      <Modal isOpen={isPassOpen} onClose={onPassClose} size={"sm"}>
+        <ModalOverlay />
+        <ModalContent>
+          <div className=" bg-[#576CBC] py-8">
+            {/* <div className=" flex justify-end">
+              <IoMdArrowBack className="text-2xl text-white"
+                onClick={() => {
+                  onPassClose();
+                  onOpen();
+                }}
+              />
+            </div> */}
+            <div className=" w-[70%] mx-auto">
+              <div className=" flex justify-center">
+                <img src={authImg} className="w-20" alt="auth-bg" />
+              </div>
+              <h1 className=" text-center text-white text-3xl font-semibold py-4">
+                Password Reset
+              </h1>
+              <div className="my-6">
+                <input
+                  type="email"
+                  placeholder="Enter your email address"
+                  className="w-full py-[10px] bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mb-6"
+                  name="email"
+                  onChange={passwordChangeHandler}
+                />
+                <input
+                  type="password"
+                  placeholder="Enter your new password"
+                  className="w-full py-[10px] bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full mb-6"
+                  name="password"
+                  onChange={passwordChangeHandler}
+                />
+                <input
+                  type="password"
+                  placeholder="Confirm your new password"
+                  className="w-full py-[10px] bg-[#ACBADF] placeholder:text-[#577586] focus:outline-none px-4 rounded-full"
+                  name="cpassword"
+                  onChange={passwordChangeHandler}
+                />
+              </div>
+              {passError && passError != "" && (
+                <span className=" text-yellow-300 font-medium text-[15px]">
+                  {passError}
+                </span>
+              )}
+            </div>
+          </div>
+          <div className=" my-8">
+            <div className="flex justify-center gap-3">
+              <button
+                className=" bg-[#313238] h-12 text-white w-[100px] rounded-full disabled:bg-[#9ca8d6]"
+                onClick={() => {
+                  onPassClose();
+                  onOpen();
+                }}
+              >
+                Go Back
+              </button>
+              <button
+                className=" bg-[#576CBC] h-12 text-white w-[100px] rounded-full disabled:bg-[#9ca8d6]"
+                onClick={passwordResetHandler}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? <BeatLoader color="#fff" size={7} /> : "Reset"}
+              </button>
+            </div>
+            {/* <div className=" flex justify-center mt-6">
+              <span className=" text-center text-black text-sm">
+                Don't have an account?{" "}
+                <span
+                  className="font-normal ml-1 text-[#4156aa] cursor-pointer hover:text-[#27387c] hover:underline"
+                  onClick={() => {
+                    onClose();
+                    onRegOpen();
+                  }}
+                >
+                  Sign Up
+                </span>
+              </span>
+            </div> */}
           </div>
         </ModalContent>
       </Modal>

@@ -21,7 +21,8 @@ const Feedback = () => {
           rewind: true,
           width: 800,
           gap: "1rem",
-          autoplay: 'true'
+          autoplay: 'true',
+          speed: 2000
         }}
       >
         <SplideSlide>

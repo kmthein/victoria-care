@@ -38,7 +38,25 @@ export const changePassword = (req, res) => {
     if (err) return res.json(err);
     return res.status(200).json(data);
   });
-}; 
+};
+
+export const resetPassword = (req, res) => {
+  const q = "SELECT * FROM users WHERE email = ?";
+  db.query(q, [req.body.email], (err, data) => {
+    if (err) return res.json(err);
+    if (data.length === 0)
+      return res.status(404).json("Your email is not found.");
+      var salt = bcrypt.genSaltSync(10);
+      var hash = bcrypt.hashSync(req.body.password, salt);
+      const q = "UPDATE `users` SET `password` = ? WHERE `email` = ?";
+      const values = [hash, req.body.email];
+      db.query(q, [hash, req.body.email], (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.status(200).json("Your password is reset successfully.");
+      })
+  });
+  
+};
 
 export const login = (req, res) => {
   // Check email

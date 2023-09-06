@@ -22,7 +22,7 @@ export const selectAppointment = (req, res) => {
 }
 
 export const getAppointmentByUser = (req, res) => {
-  const q = "SELECT * FROM `appointment` WHERE patient_id = (?)";
+  const q = "SELECT * FROM `appointment` WHERE patient_id = (?) AND status = 'Paid'";
   const id = req.body.id;
   db.query(q, [id], (err, data) => {
     if(err) return res.status(500).json(err);
