@@ -1,1 +1,1 @@
-export const url = "http://localhost:8800";
+export const url = "https://victoria-care-3ux1.vercel.app/";
