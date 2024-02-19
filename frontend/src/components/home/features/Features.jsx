@@ -11,7 +11,7 @@ const Features = () => {
   return (
     <div className=' flex w-full'>
         <div className='xl:h-[500px] bg-[#194ba2] w-full md:w-[50%]'>
-            <div className=' mt-[80px] ml-[20%] inter'>
+            <div className=' my-[80px] ml-[20%] inter'>
                 <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ delay: 0.8, duration: 1.5}}>
                     <MenuPill title={"Features"} style=" text-white" />
                 </motion.div>

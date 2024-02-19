@@ -26,7 +26,7 @@ const AdminLayout = () => {
   return (
     <>
       <Navbar />
-      <div className="flex justify-start">
+      <div className="flex justify-start min-h-screen">
           <Sidebar />
         <div className="bg-[#EAEBEF] w-full">
           <Outlet />

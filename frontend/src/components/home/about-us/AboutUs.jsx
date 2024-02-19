@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 const AboutUs = () => {
   return (
     <div className=" relative w-full xl:w-[80%] xl:h-[700px] mx-auto inter text-[#53748B]">
-      <div className=" flex flex-col-reverse xl:flex xl:flex-row py-[120px]">
+      <div className=" flex flex-col-reverse xl:flex xl:flex-row py-[60px] mb-[60px] md:py-[120px]">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 0.5 }} className="  relative w-full xl:w-[50%]">
           <img
             src={img1}
