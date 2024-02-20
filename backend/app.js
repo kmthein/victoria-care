@@ -10,6 +10,7 @@ import countRoutes from "./routes/count.js";
 import contactRoutes from "./routes/contact.js";
 import fileRoutes from "./routes/storage.js";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
@@ -23,6 +24,8 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
     next();
 });
+
+app.use(cors());
 
 app.use(express.static('public'));
 
