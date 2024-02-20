@@ -28,7 +28,7 @@ const Specialty = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate('/admin/specialty');
+    navigate('/specialty');
   }, [Specialty])
 
   const toast = useToast();
@@ -42,7 +42,7 @@ const Specialty = () => {
       duration: 9000,
       isClosable: true,
     });
-    navigate('/admin/specialty');
+    navigate('/specialty');
   };
 
   const [input, setInput] = useState("");

@@ -12,7 +12,7 @@ export const adminTokenLoader = () => {
 export const adminAuthLoader = () => {
     const adminToken = getAdminToken();
     if(!adminToken) {
-        return redirect('/admin/login');
+        return redirect('/login');
     }
     return adminToken;
 }

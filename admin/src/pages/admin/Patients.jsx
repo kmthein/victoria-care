@@ -33,7 +33,7 @@ const Patients = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/admin/patient");
+    navigate("/patient");
   }, [Patients]);
 
   const deletePatientHandler = async (id) => {

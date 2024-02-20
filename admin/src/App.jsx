@@ -30,7 +30,7 @@ import PaymentByID from "./pages/PaymentByID";
 function App() {
   const router = createBrowserRouter([
     {
-      path: "/admin",
+      path: "/",
       element: <AdminLayout />,
       loader: adminTokenLoader,
       children: [
@@ -136,11 +136,11 @@ function App() {
       ],
     },
     {
-      path: "/admin/login",
+      path: "/login",
       element: <AdminLoginPage />,
     },
     {
-      path: "/admin/register",
+      path: "/register",
       element: <AdminRegister />,
     },
   ]);

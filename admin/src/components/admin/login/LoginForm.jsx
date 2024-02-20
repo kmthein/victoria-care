@@ -40,7 +40,7 @@ const LoginForm = () => {
           duration: 9000,
           isClosable: true,
         });
-        navigate("/admin");
+        navigate("/");
         dispatch(authActions.adminLogin(adminToken));
       } catch (error) {
         toast({

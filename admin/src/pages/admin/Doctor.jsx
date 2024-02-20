@@ -35,13 +35,13 @@ const Doctor = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/admin/doctor");
+    navigate("/doctor");
   }, [Doctor]);
 
   const deleteDoctorHandler = async (id) => {
     onClose();
     const res = await axios.post(`${url}/doctor/delete`, { id: id });
-    navigate("/admin/doctor");
+    navigate("/doctor");
   };
 
   const [input, setInput] = useState("");

@@ -15,12 +15,12 @@ const AdminLayout = () => {
 
   useEffect(() => {
     if(!adminToken) {
-      return navigate("/admin/login");
+      return navigate("/login");
     }
   }, [adminToken])
 
   useEffect(() => {
-    navigate('/admin')
+    navigate('/')
   }, [isAdminLogIn])
 
   return (

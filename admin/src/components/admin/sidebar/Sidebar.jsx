@@ -15,7 +15,7 @@ const Sidebar = () => {
             ? "bg-[#3a454b] flex items-center gap-4 py-4 px-8 hover:bg-[#3a454b]"
             : `flex items-center gap-4 py-4 px-8 hover:bg-[#3a454b] `
         }
-        to="/admin"
+        to="/"
         end
       >
         <ImHome3 className="text-xl" />
@@ -27,7 +27,7 @@ const Sidebar = () => {
             ? "bg-[#3a454b] flex items-center gap-4 py-4 px-8 hover:bg-[#3a454b]"
             : `flex items-center gap-4 py-4 px-8 hover:bg-[#3a454b] `
         }
-        to="patient"
+        to="/patient"
       >
         <BsPeopleFill className="text-xl" />
         <span>Patient</span>
