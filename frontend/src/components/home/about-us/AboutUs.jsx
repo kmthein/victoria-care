@@ -26,7 +26,7 @@ const AboutUs = () => {
         <motion.div initial={{ x: '+100vw' }} animate={{ x: 0 }} transition={{ delay: 1, duration: 0.5 }} className=" w-[90%] mx-auto xl:mx-0 xl:w-[50%]">
             <MenuPill title={"About Us"} style="border-[#5e8099]" />
             <h2 className=" my-6 text-[#0C3C5F] font-semibold text-3xl">Welcome to Victoria Care</h2>
-            <p className=" leading-relaxed">Victoria Hospital offers high quality medical services and it is well-equipped with modern technology. It is located on No.68, Taw Win Road, 9 Mile, Mayagone Township, Yangon, Myanmar. Victoria Hospital offers comprehensive medical services with superior quality and high efficiency.Victoria Hospital aims to go beyond medical and healthcare services. Victoria organizes and conducts regular consultations and encourages discussions with respected and credible working partners and stakeholders.</p>
+            <p className=" leading-relaxed">LHSC, one of Canada’s largest acute-care teaching hospitals, is dedicated to excellence in patient care, teaching and research. Since 1875, we have provided patient care for the people of London, the region, and beyond. Many national and international medical breakthroughs have been pioneered at LHSC, to the benefit of patients at home and around the world. Through our affiliation with Western University and more than 30 other educational institutions, we train more than 1,800 medical and health care professionals annually.   </p>
             <div className="my-8">
                 <div className=" flex items-center gap-2 my-3">
                     <BsCheckCircle className="text-[#061f31]" />

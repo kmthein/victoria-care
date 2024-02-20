@@ -53,6 +53,7 @@ const RegisterForm = () => {
         return;
       }
       const res = await axios.post(`${url}/api/auth/admin-register`, input);
+      console.log(res);
       toast({
         title: "Account created.",
         description: "Congratulations, your account has been created.",
@@ -61,7 +62,7 @@ const RegisterForm = () => {
         isClosable: true,
       });
       setRegInput(initialInput);
-      navigate("/admin/login");
+      navigate("/login");
     } catch (error) {
       toast({
         title: error.response.data,
@@ -172,7 +173,7 @@ const RegisterForm = () => {
         </div>
         <p className="text-center text-white/70">
           Already have account?{" "}
-          <Link to="/admin/login">
+          <Link to="/login">
             <span className=" ml-2 border-b-[1px] hover:text-gray-500">
               Log in
             </span>
