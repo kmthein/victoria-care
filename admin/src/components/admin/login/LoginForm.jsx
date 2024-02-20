@@ -54,7 +54,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className=" bg-[#303B40] w-[30%] mx-auto py-8">
+    <div className=" bg-[#303B40] w-[80%] lg:w-[30%] mx-auto md:py-8">
       <img src={whiteLogo} alt="logo" className=" mx-auto pt-8" />
       <p className="text-white text-center mt-3">Admin Panel</p>
       <div className=" w-[70%] mx-auto mt-20 admin-login">
