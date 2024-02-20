@@ -9,6 +9,9 @@ import reportRoutes from "./routes/report.js";
 import countRoutes from "./routes/count.js";
 import contactRoutes from "./routes/contact.js";
 import fileRoutes from "./routes/storage.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const app = express();
 
