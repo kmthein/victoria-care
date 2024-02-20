@@ -12,7 +12,7 @@ const DoctorPage = () => {
   return (
     <>
       <Breadcrumb title={"Doctor"} />
-      <div className='w-[50%] mx-auto'>
+      <div className='w-[80%] md:w-[50%] mx-auto'>
         <SearchBar placeholder={"Search by doctor name"} submitType={"searchDoctor"}/>
         <DoctorList doctors={doctors} />
       </div>

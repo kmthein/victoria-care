@@ -18,7 +18,7 @@ const SpecialtyItem = ({id, name}) => {
   }
 
   return (
-    <motion.div onClick={() => filterBySpecialty(id)} name={id} whileHover={{scale: 1.02, boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"}} className=' bg-[#F6F4F4] w-[208px] py-12 text-center rounded-md cursor-pointer'>
+    <motion.div onClick={() => filterBySpecialty(id)} name={id} whileHover={{scale: 1.02, boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"}} className=' bg-[#F6F4F4] w-[80%] mx-auto md:w-[208px] lg:w-[230px] py-12 text-center rounded-md cursor-pointer'>
         <span className=' px-2 text-sm font-medium'>{name.replace(/\(.*\)/, '')}</span>
     </motion.div>
   )

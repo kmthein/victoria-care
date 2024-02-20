@@ -1,1 +1,1 @@
-export const url = "https://victoria-care.onrender.com";
+export const url = `${import.meta.env.VITE_API}`;

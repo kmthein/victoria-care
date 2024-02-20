@@ -21,7 +21,7 @@ const SpecialtyPage = () => {
   return (
     <>
       <Breadcrumb title={"Specialty"} />
-      <div className='w-[50%] mx-auto'>
+      <div className='w-[80%] md:w-[50%] mx-auto'>
         <SearchBar placeholder={"Search by specialty name"} submitType={"searchSpecialty"} />
         <div className=' flex flex-wrap gap-6 mb-8'>
           {
