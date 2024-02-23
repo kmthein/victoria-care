@@ -20,7 +20,7 @@ const SearchResultPage = () => {
         {
             specialties.length > 0 ?
             specialties.map((specialty) => (
-              <SpecialtyItem key={specialty.id} id={specialty.id} name={specialty.specialty_name} />
+              <SpecialtyItem key={specialty._id} id={specialty._id} name={specialty.name} />
             )) :
             <p className=' mx-auto text-gray-700'>No results found</p>
           }

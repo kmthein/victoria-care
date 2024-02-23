@@ -5,7 +5,7 @@ import { url } from "../../../api/api";
 
 const EditPatient = () => {
   const patient = useLoaderData();
-  const { id, name, email, phone_num, dob } = patient[0];
+  const { id, name, email, phone_num, dob } = patient;
 
   const initialInput = {
     id,
@@ -28,7 +28,7 @@ const EditPatient = () => {
       values: input,
       id: id,
     });
-    navigate('/admin/patient');
+    navigate('/patient');
   };
 
   return (
@@ -98,7 +98,7 @@ const EditPatient = () => {
           />
         </div>
         <div className=" mt-10 flex justify-end gap-4">
-          <Link to="/admin/patient">
+          <Link to="/patient">
             <button className=" border border-gray-400 text-gray-600 py-2 rounded-md w-20">
               Cancel
             </button>
@@ -118,7 +118,8 @@ const EditPatient = () => {
 export default EditPatient;
 
 export const loader = async ({ req, params }) => {
-  const res = await axios.post(`${url}/user/patients`, params);
+  const {id} = params;
+  const res = await axios.get(`${import.meta.env.VITE_API}/user/${id}`);
   if (!res.ok) {
   }
   return res.data;

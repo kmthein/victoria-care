@@ -1,85 +1,26 @@
-import { db } from "../db.js";
+const Specialty = require("../models/specialty");
+const Doctor = require("../models/doctor");
 
-export const getSpecialtyList = (req, res) => {
-  const q = "SELECT * FROM specialty";
-
-  db.query(q, (err, data) => {
-    if (err) return res.send(err);
-    return res.status(200).json(data);
-  });
-};
-
-export const getSingleSpecialty = (req, res) => {
-  const q = "SELECT * FROM specialty WHERE id = ?";
-
-  db.query(q, [req.body.id], (err, data) => {
-    if (err) return res.send(err);
-    return res.status(200).json(data);
-  });
-};
-
-export const updateSingleSpecialty = (req, res) => {
-  const q = "UPDATE `specialty` SET `specialty_name`= ? WHERE `id` = ?";
-
-  db.query(q, [req.body.name, req.body.id], (err, data) => {
-    if (err) return res.send(err);
-    return res.status(200).json(data);
-  });
-};
-
-export const deleteSpecialty = (req, res) => {
-  const q = "DELETE FROM `specialty` WHERE id = ?";
-
-  db.query(q, [req.body.id], (err, data) => {
-    if (err) return res.send(err);
-    return res.status(200).json(data);
-  });
-};
-
-export const addNewSpecialty = (req, res) => {
-  // Check name already exist
-  const q = "SELECT * FROM `specialty` WHERE specialty_name = ?";
-
-  db.query(q, [req.body.name], (err, data) => {
-    if (err) return res.json(err);
-    if (data.length)
-      return res.status(409).json("Specialty name has been existed.");
-
-    const q = "INSERT INTO `specialty`(`specialty_name`) VALUES (?)";
-
-    db.query(q, [req.body.name], (err, data) => {
-      if (err) return res.status(500).json(err);
-      return res.status(200).json("New specialty has been added.");
+exports.getSpecialtyList = (req, res) => {
+    return Specialty.find().then((result) => {
+        return res.status(200).json(result);
+    }).catch((err) => {
+        return res.status(422).json(err);
     });
-  });
-};
+}
 
-export const searchSpecialtyByName = (req, res) => {
-  const q = "SELECT * FROM specialty WHERE specialty_name LIKE (?)";
-  const value = `%${req.body.search}%`;
+exports.filterSpecialty = (req, res) => {
+    const { id } = req.body;
+    return Doctor.find({ specialtyId: id }).populate("specialtyId").then((result) => {
+        return res.status(200).json(result);
+    }).catch((err) => {
+        return res.status(422).json(err);        
+    });
+}
 
-  db.query(q, [value], (err, data) => {
-    if (err) return res.json(err);
-    return res.status(200).json(data);
-  });
-};
-
-export const filterSpecialty = (req, res) => {
-  const q = "SELECT * FROM doctor WHERE specialty_id = ?";
-  const id = req.body.id;
-
-  db.query(q, [id], (err, data) => {
-    if (err) return res.json(err);
-    return res.status(200).json(data);
-  });
-};
-
-export const getDoctorSpecialty = (req, res) => {
-  const q = "SELECT * FROM specialty WHERE id = ?";
-  const id = req.body.id;
-
-  db.query(q, [id], (err, data) => {
-    if (err) return res.json(err);
-    return res.status(200).json(data);
-  });
-};
+exports.searchByName = async (req, res) => {
+    const { search } = req.body;
+    const pattern = new RegExp(search.toString(), "i");
+    const specialtyDoc = await Specialty.find({ name: {$regex: pattern}});
+    return res.status(200).json(specialtyDoc);
+}

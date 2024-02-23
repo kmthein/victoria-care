@@ -26,7 +26,7 @@ const LoginForm = () => {
     setIsSubmitting(true);
     setTimeout(async () => {
       try {
-        const res = await axios.post(`${url}/api/auth/admin-login`, {
+        const res = await axios.post(`${import.meta.env.VITE_API}/admin-login`, {
           email: email,
           password: password,
         });

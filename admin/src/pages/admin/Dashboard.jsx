@@ -1,7 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BsCalendarCheck, BsPeopleFill } from "react-icons/bs";
-import { FaHospitalUser, FaShieldVirus, FaUser, FaUserMd } from "react-icons/fa";
+import {
+  FaHospitalUser,
+  FaShieldVirus,
+  FaUser,
+  FaUserMd,
+} from "react-icons/fa";
 import { MdOutlineFolderSpecial } from "react-icons/md";
 import { TbVirusSearch } from "react-icons/tb";
 import { url } from "../../api/api";
@@ -13,31 +18,33 @@ const Dashboard = () => {
   const [totalAppoint, setTotalAppoint] = useState();
 
   const getTotalDoctors = async () => {
-    const res = await axios.get(`${url}/count/total-doctor`);
-      setDoctors(res.data[0].total);
-  }
+    const res = await axios.get(`${import.meta.env.VITE_API}/doctor`);
+    setDoctors(res.data);
+  };
 
   const getTotalSpecialty = async () => {
-    const res = await axios.get(`${url}/count/total-specialty`);
-      setSpecialty(res.data[0].total);
-  }
+    const res = await axios.get(`${import.meta.env.VITE_API}/specialty`);
+    setSpecialty(res.data);
+  };
 
   const getTotalUsers = async () => {
-    const res = await axios.get(`${url}/count/total-user`);
-      setUsers(res.data[0].total);
-  }
+    const res = await axios.get(`${import.meta.env.VITE_API}/all-users`);
+    setUsers(res.data);
+  };
 
   const getTotalAppointments = async () => {
-    const res = await axios.get(`${url}/count/total-appointment`);
-      setTotalAppoint(res.data[0].total);
-  }
+    const res = await axios.get(
+      `${import.meta.env.VITE_API}/count/total-appointment`
+    );
+    setTotalAppoint(res.data);
+  };
 
   useEffect(() => {
-    getTotalSpecialty();
     getTotalDoctors();
+    getTotalSpecialty();
     getTotalUsers();
-    getTotalAppointments();
-  }, [])
+    // getTotalAppointments();
+  }, []);
 
   return (
     <>
@@ -46,7 +53,7 @@ const Dashboard = () => {
           <div className=" flex items-center h-full gap-4 justify-center">
             <FaUserMd className="text-5xl text-[#16BBE5]" />
             <div className="roboto ml-4">
-              <p className="text-4xl font-semibold">{doctors}</p>
+              <p className="text-4xl font-semibold">{doctors?.length}</p>
               <p className="text-xl text-gray-500">Doctors</p>
             </div>
           </div>
@@ -55,7 +62,7 @@ const Dashboard = () => {
           <div className=" flex items-center h-full gap-4 justify-center">
             <FaShieldVirus className="text-5xl text-red-500" />
             <div className="roboto ml-4">
-              <p className="text-4xl font-semibold">{specialty}</p>
+              <p className="text-4xl font-semibold">{specialty?.length}</p>
               <p className="text-xl text-gray-500">Specialty</p>
             </div>
           </div>
@@ -64,7 +71,7 @@ const Dashboard = () => {
           <div className=" flex items-center h-full gap-4 justify-center">
             <FaUser className="text-5xl  text-yellow-400" />
             <div className="roboto ml-4">
-              <p className="text-4xl font-semibold">{users}</p>
+              <p className="text-4xl font-semibold">{users?.length}</p>
               <p className="text-xl text-gray-500">Users</p>
             </div>
           </div>

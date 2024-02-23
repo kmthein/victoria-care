@@ -52,7 +52,7 @@ const RegisterForm = () => {
         });
         return;
       }
-      const res = await axios.post(`${url}/api/auth/admin-register`, input);
+      const res = await axios.post(`${import.meta.env.VITE_API}/register`, {input: input, role: "admin"});
       console.log(res);
       toast({
         title: "Account created.",

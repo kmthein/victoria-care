@@ -1,64 +1,37 @@
-import { db } from "../db.js";
+const User = require("../models/user");
 
-export const getAllUsers = (req, res) => {
-    const q = "SELECT * FROM users WHERE user_role_id = 1";
-
-    db.query(q, (err, data) => {
-        if(err) return res.status(500).json(err);
-        return res.status(200).json(data);
-    })
-}
-
-export const getUser = (req, res) => {
-    const q = "SELECT * FROM users WHERE user_role_id = 1 AND id = ?";
-    const id = req.body.id
-
-    db.query(q, [id], (err, data) => {
-        if(err) return res.status(500).json(err);
-        return res.status(200).json(data);
-    })
-}
-
-export const getAdmin = (req, res) => {
-    const q = "SELECT * FROM users WHERE user_role_id = 2 AND id = ?";
-    const id = req.body.id
-
-    db.query(q, [id], (err, data) => {
-        if(err) return res.status(500).json(err);
-        return res.status(200).json(data);
-    })
-}
-
-export const updateUser = (req, res) => {
-    const userId = req.body.id;
-
-    const q = "UPDATE `users` SET `name`= ?,`email`= ?,`phone_num`= ?,`dob`= ? WHERE id = ?"
-
-    const {name, email, phone_num, dob} = req.body.values;
-
-    db.query(q, [name, email, phone_num, dob, userId], (err, data) => {
-        if(err) return res.status(500).json(err);
-        return res.status(200).json("Profile has been updated");
-    })
-}
-
-export const deleteUser = (req, res) => {
-    const userId = req.body.id;
-
-    const q = "DELETE FROM `users` WHERE id = ?";
-
-    db.query(q, [userId], (err, data) => {
-        if(err) return res.status(500).json(err);
-        return res.status(200).json("User deleted successfully.")
-    })
-}
-
-export const searchUserByName = (req, res) => {
-    const q = "SELECT * FROM users WHERE name LIKE (?)";
-    const value = `%${req.body.search}%`;
-  
-    db.query(q, [value], (err, data) => {
-      if (err) return res.json(err);
-      return res.status(200).json(data);
+exports.updateUser = (req, res) => {
+    const { values, id } = req.body;
+    const { name, email, phone_num, dob } = values;
+    let userDoc;
+    return User.findById(id).then((user) => {
+        user.name = name;
+        user.email = email;
+        user.phone_num = phone_num;
+        user.dob = dob;
+        user.save();
+        const {password, user_role, ...other} = user._doc;
+        userDoc = other;
+    }).then((user) => {
+        return res.status(200).json(userDoc);
+    }).catch((err) => {
+        return res.status(422).json("User update failed.");        
     });
-  };
+}
+
+exports.totalUser = (req, res) => {
+    return User.find({user_role: "client"}).then((user) => {
+        return res.status(200).json(user);
+    }).catch((err) => {
+        return res.status(422).json("User data not found.");        
+    });
+}
+
+exports.getUserDetail = (req, res) => {
+    const {id} = req.params;
+    return User.findById(id).then((user) => {
+        return res.status(200).json(user);
+    }).catch((err) => {
+        return res.status(422).json("User data not found.");        
+    });
+}

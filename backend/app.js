@@ -1,20 +1,14 @@
-import express from "express";
-import authRoutes from "./routes/auth.js";
-import doctorRoutes from "./routes/doctor.js";
-import cookieParser from 'cookie-parser';
-import specialtyRoutes from "./routes/specialty.js";
-import userRoutes from "./routes/user.js";
-import appointRoutes from "./routes/appointment.js";
-import reportRoutes from "./routes/report.js";
-import countRoutes from "./routes/count.js";
-import contactRoutes from "./routes/contact.js";
-import fileRoutes from "./routes/storage.js";
-import dotenv from "dotenv";
-import cors from "cors";
+const express = require("express");
+const dotenv = require("dotenv").config();
+const cors = require("cors");
+const mongoose = require("mongoose");
 
-dotenv.config();
+const specialtyRoute = require("./routes/specialty");
+const doctorRoute = require("./routes/doctor");
+const authRoute = require("./routes/auth");
+const userRoute = require("./routes/user");
 
-export const app = express();
+const app = express();
 
 app.use(express.json());
 
@@ -29,24 +23,18 @@ app.use(cors());
 
 app.use(express.static('public'));
 
-app.use('/api/auth', authRoutes)
+app.use(specialtyRoute);
 
-app.use('/doctor', doctorRoutes)
+app.use(doctorRoute);
 
-app.use('/specialty', specialtyRoutes)
+app.use(authRoute);
 
-app.use('/user', userRoutes)
-
-app.use('/appointment', appointRoutes)
-
-app.use('/report', reportRoutes)
-
-app.use('/count', countRoutes)
-
-app.use('/contact', contactRoutes)
-
-app.use('/file', fileRoutes)
+app.use(userRoute);
 
 app.listen(8800, () => {
-    console.log("Connected");
+    mongoose.connect(process.env.MONGO_URL).then(() => {
+        console.log("Connected to database.");
+    }).catch((err) => {
+        console.log(err);
+    })
 })

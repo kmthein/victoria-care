@@ -1,15 +1,11 @@
-import express from "express"
-import { addNewSpecialty, deleteSpecialty, filterSpecialty, getDoctorSpecialty, getSingleSpecialty, getSpecialtyList, searchSpecialtyByName, updateSingleSpecialty } from "../controllers/specialty.js";
+const router = require("express").Router();
 
-const router = express.Router();
+const specialtyController = require("../controllers/specialty");
 
-router.get('/', getSpecialtyList)
-router.post('/search', searchSpecialtyByName)
-router.post('/doctor', getDoctorSpecialty)
-router.post('/new', addNewSpecialty)
-router.post('/delete', deleteSpecialty)
-router.post('/edit/:id', getSingleSpecialty)
-router.put('/edit/:id', updateSingleSpecialty)
-router.post('/', filterSpecialty)
+router.get("/specialty", specialtyController.getSpecialtyList);
 
-export default router;
+router.post("/specialty", specialtyController.filterSpecialty);
+
+router.post("/specialty/search", specialtyController.searchByName);
+
+module.exports = router;

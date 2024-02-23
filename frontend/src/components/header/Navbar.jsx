@@ -165,7 +165,7 @@ const Navbar = () => {
                 ) : (
                   <Menu>
                     <MenuButton as={Button} rightIcon={<BiChevronDown />}>
-                      {currentUser.name}
+                      {currentUser?.name}
                     </MenuButton>
                     <MenuList>
                       <Link to='/user/profile'>

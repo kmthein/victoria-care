@@ -68,11 +68,11 @@ const DoctorItem = ({
         <div className="text-[14px]">
           <p className="text-right">
             {schedules_day.length > 0 &&
-              schedules_day.map((schedule) => <>{schedule.day}{" "} </>)}
+              schedules_day.map((day, i) => <span key={i}>{day}{" "} </span>)}
           </p>
           <p className="text-right">
             {schedules_time.length > 0 &&
-              schedules_time.map((schedule) => <p>{schedule.time}</p>)}
+              schedules_time.map((time, i) => <p key={i}>{time}</p>)}
           </p>
           <div className=" mt-2 text-sm flex justify-end">
             {isLoggedIn ? (

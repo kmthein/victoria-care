@@ -1,13 +1,11 @@
-import express from 'express';
-import { addNewDoctor, deleteUser, getDoctorList, getSingleDoctor, searchDoctorByName, updateDoctor } from '../controllers/doctor.js';
+const router = require("express").Router();
 
-const router = express.Router();
+const doctorController = require("../controllers/doctor");
 
-router.get('/', getDoctorList);
-router.post('/', getSingleDoctor);
-router.post('/search', searchDoctorByName); 
-router.post('/delete', deleteUser);
-router.post('/add', addNewDoctor);
-router.put('/update', updateDoctor);
+router.get("/doctor", doctorController.getDoctorList);
 
-export default router;
+router.post("/doctor/search", doctorController.searchByName);
+
+router.get("/count/total-doctor", doctorController.totalDoctor);
+
+module.exports = router;

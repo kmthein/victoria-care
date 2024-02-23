@@ -24,7 +24,7 @@ const DoctorPage = () => {
 export default DoctorPage
 
 export const loader = async () => {
-  const res = await axios.get(`${url}/doctor`)
+  const res = await axios.get(`${import.meta.env.VITE_API}/doctor`)
   if(!res.ok) {
 
   } 

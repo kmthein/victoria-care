@@ -1,13 +1,11 @@
-import express from "express";
-import { deleteUser, getAdmin, getAllUsers, getUser, searchUserByName, updateUser } from "../controllers/user.js";
+const router = require("express").Router();
 
-const router = express.Router();
+const userController = require("../controllers/user");
 
-router.get('/patients', getAllUsers);
-router.post('/patients', getUser);
-router.post('/admin', getAdmin);
-router.post('/search', searchUserByName); 
-router.put('/update', updateUser);
-router.post('/patients/delete', deleteUser);
+router.put("/user/update", userController.updateUser);
 
-export default router;
+router.get("/all-users", userController.totalUser);
+
+router.get("/user/:id", userController.getUserDetail);
+
+module.exports = router;

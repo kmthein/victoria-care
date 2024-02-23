@@ -23,14 +23,14 @@ const SearchBar = ({ placeholder, submitType }) => {
   if(submitType == "searchDoctor") {
     searchSubmitHandler = async (e) => {
       e.preventDefault();
-      const res = await axios.post(`${url}/doctor/search`, input);
+      const res = await axios.post(`${import.meta.env.VITE_API}/doctor/search`, input);
       dispatch(searchActions.searchByDoctorName(res.data));
       navigate("/doctor-search");
     }
   } else {
     searchSubmitHandler = async (e) => {
       e.preventDefault();
-      const res = await axios.post(`${url}/specialty/search`, input);
+      const res = await axios.post(`${import.meta.env.VITE_API}/specialty/search`, input);
       dispatch(searchActions.searchBySpecialName(res.data));
       navigate("/specialty-search");
   }

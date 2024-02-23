@@ -27,7 +27,7 @@ const SpecialtyPage = () => {
           {
             specialties && specialties.length > 0 ?
             specialties.map((specialty) => (
-              <SpecialtyItem key={specialty.id} id={specialty.id} name={specialty.specialty_name}  />
+              <SpecialtyItem key={specialty._id} id={specialty._id} name={specialty.name}  />
             )) :
             <p className='mx-auto'>No Results Available.</p>
           }
@@ -41,7 +41,7 @@ export default SpecialtyPage
 
 export const loader = async () => {
   try {
-    const res = await axios.get(`${url}/specialty`)
+    const res = await axios.get(`${import.meta.env.VITE_API}/specialty`);
     
     return res.data;    
   } catch (error) {

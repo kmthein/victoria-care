@@ -19,7 +19,7 @@ import TableForm from "../components/admin/table/TableForm";
 const UserProfilePage = () => {
   const currentUser = useSelector((state) => state.auth.currentUser);
 
-  const { img, id, name, email, phone_num, dob } = currentUser;
+  const { images, _id, name, email, phone_num, dob } = currentUser;
 
   const navigate = useNavigate();
 
@@ -37,8 +37,8 @@ const UserProfilePage = () => {
     setUserImg(res.data[0].images);
     dispatch(
       authActions.updateUser({
-        ...currentUser,
-        img: userImage,
+        ...user,
+        images: userImage,
       })
     );
   };
@@ -96,9 +96,9 @@ const UserProfilePage = () => {
         <div className=" flex gap-8">
           <div className=" w-[20%] ">
             <div className=" text-center">
-              {img != "" ? (
+              {images != "" ? (
                 <img
-                  src={`${url}/upload/${img}`}
+                  src={`${url}/upload/${images}`}
                   className=" w-40 h-40 rounded-full object-center object-cover mx-auto"
                 />
               ) :
@@ -166,8 +166,8 @@ const UserProfilePage = () => {
                   </TabPanel>
                   <TabPanel>
                     <UserForm
-                      img={img}
-                      id={id}
+                      image={images}
+                      id={_id}
                       name={name}
                       email={email}
                       phone_num={phone_num}

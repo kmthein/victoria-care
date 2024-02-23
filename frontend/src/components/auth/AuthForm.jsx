@@ -104,7 +104,7 @@ const AuthForm = ({
         });
         return;
       }
-      await axios.post(`${url}/api/auth/register`, regInput);
+      await axios.post(`${import.meta.env.VITE_API}/register`, regInput);
       toast({
         title: "Account created.",
         description: "Congratulations, your account has been created.",
@@ -152,12 +152,13 @@ const AuthForm = ({
     setIsSubmitting(true);
     setTimeout(async () => {
       try {
-        const res = await axios.post(`${url}/api/auth/login`, loginInput);
-        const token = res.data;
+        const res = await axios.post(`${import.meta.env.VITE_API}/login`, loginInput);
+        const {token, user} = res.data;
         localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("user", JSON.stringify(user));
         onClose();
         navigate("/");
-        dispatch(authActions.login(token));
+        dispatch(authActions.login(res.data));
         toast({
           title: "Login Successful.",
           status: "success",
@@ -166,7 +167,7 @@ const AuthForm = ({
         });
         setLoginInput(initialLoginInput);
       } catch (error) {
-        if (error.response.status == 404) {
+        if (error.response.status == 422) {
           toast({
             title: error.response.data,
             status: "error",

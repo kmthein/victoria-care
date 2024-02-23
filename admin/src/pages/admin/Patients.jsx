@@ -23,6 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { motion } from "framer-motion";
+import { formatISO9075 } from "date-fns";
 
 const Patients = () => {
   const patients = useRouteLoaderData("patient");
@@ -31,6 +32,7 @@ const Patients = () => {
   const cancelRef = React.useRef();
 
   const navigate = useNavigate();
+
 
   useEffect(() => {
     navigate("/patient");
@@ -103,9 +105,9 @@ const Patients = () => {
               <p className=" w-[200px]">{patient.name}</p>
               <p className=" w-[200px]">{patient.email}</p>
               <p className=" w-[200px]">{patient.phone_num}</p>
-              <p className=" w-[200px]">{patient.dob}</p>
+              <p className=" w-[200px]">{formatISO9075(new Date(patient.dob), { representation: 'date' })}</p>
               <p className="flex gap-4">
-                <Link to={`edit/${patient.id}`}>
+                <Link to={`edit/${patient._id}`}>
                   <TiEdit className=" text-xl cursor-pointer" />
                 </Link>
                 {/* <MdDeleteForever
@@ -206,7 +208,7 @@ const Patients = () => {
 export default Patients;
 
 export const loader = async () => {
-  const res = await axios.get(`${url}/user/patients`);
+  const res = await axios.get(`${import.meta.env.VITE_API}/all-users`);
   if (!res.ok) {
   }
   return res.data;

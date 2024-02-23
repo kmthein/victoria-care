@@ -12,7 +12,7 @@ const SpecialtyItem = ({id, name}) => {
   const navigate = useNavigate();
 
   const filterBySpecialty = async (id) => {
-    const res = await axios.post(`${url}/specialty`, {id: id})
+    const res = await axios.post(`${import.meta.env.VITE_API}/specialty`, {id})
     dispatch(searchActions.filterBySpecialty(res.data))
     navigate('name');
   }

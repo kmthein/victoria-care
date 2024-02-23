@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/reducer/authReducer";
 import { useToast } from "@chakra-ui/react";
+import { formatISO9075 } from "date-fns";
 
-const UserForm = ({ img, id, name, email, phone_num, dob }) => {
-  const currentUser = useSelector((state) => state.auth.currentUser);
+const UserForm = ({ images, id, name, email, phone_num, dob }) => {
+  const {user} = useSelector((state) => state.auth.currentUser);
 
   const initialInput = {
     id,
@@ -16,6 +17,8 @@ const UserForm = ({ img, id, name, email, phone_num, dob }) => {
     phone_num,
     dob,
   };
+
+  const DOB = formatISO9075(new Date(dob), { representation: 'date' });
 
   const [file, setFile] = useState();
 
@@ -42,11 +45,12 @@ const UserForm = ({ img, id, name, email, phone_num, dob }) => {
 
   const updateUserHandler = async (e) => {
     e.preventDefault();
-    const res = await axios.put(`${url}/user/update`, {
+    const res = await axios.put(`${import.meta.env.VITE_API}/user/update`, {
       values: input,
       id: id,
     });
-    // dispatch(authActions.updateUser(input));
+    localStorage.setItem("user", JSON.stringify(res.data));
+    dispatch(authActions.updateUser(res.data));
     toast({
       title: `Profile has been updated.`,
       status: "success",
@@ -57,19 +61,19 @@ const UserForm = ({ img, id, name, email, phone_num, dob }) => {
       formData.append("image", file);
       await axios.post(`${url}/file/upload/${id}`, formData);
       const response = await axios.post(`${url}/user/patients`, { id: id });
-      const userImage = response.data[0].images || img;
+      const userImage = response.data[0].images || image;
       const newData = {
         ...input,
-        img: userImage,
+        image: userImage,
       };
-      dispatch(authActions.updateUser(newData));
+      dispatch(authActions.updateUser(res.data));
     } else {
-      const userImage = img;
+      const userImage = image;
       const newData = {
         ...input,
-        img: userImage,
+        image: userImage,
       };
-      dispatch(authActions.updateUser(newData));
+      dispatch(authActions.updateUser(res.data));
     }
 
     setFile();
@@ -141,10 +145,10 @@ const UserForm = ({ img, id, name, email, phone_num, dob }) => {
               </label>
             </div>
             <input
-              type="text"
-              defaultValue={dob}
+              type="date"
+              defaultValue={DOB}
               name="dob"
-              className=" border-b-[1px]"
+              className=" border-b-[1px] w-[195px]"
               onChange={inputChangeHandler}
             />
           </div>

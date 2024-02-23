@@ -19,8 +19,6 @@ const AppointmentForm = () => {
     schedules_day,
     schedules_time,
     specialty_id,
-    specialty,
-    schedule_days,
     fees
   } = selectDoctor;
 
@@ -134,7 +132,7 @@ const AppointmentForm = () => {
     name: currentUser ? currentUser.name : "",
     email: currentUser ? currentUser.email : "",
     doctor_name: selectDoctor ? selectDoctor.name : "",
-    specialty: specialty,
+    specialty_name: specialty_id.name,
     contact_no: currentUser ? currentUser.phone_num : "",
     description: ""
   }
@@ -222,7 +220,7 @@ const AppointmentForm = () => {
                 type="text"
                 placeholder="specialty name"
                 className="py-2 px-4 w-full rounded-md text-black/60"
-                defaultValue={specialty && specialty}
+                defaultValue={specialty_id && specialty_id.name}
                 readOnly
                 ref={specialtyRef}
               />
@@ -234,9 +232,9 @@ const AppointmentForm = () => {
                 Date
               </label>
               <select className="py-2 px-4 w-full rounded-md" ref={dateInputRef} id="date">
-                {schedule_days &&
-                  schedule_days != [] &&
-                  schedule_days.map((d, index) => <option key={index} value={d.toDateString()}>{d.toDateString()}</option>)}
+                {schedules_day &&
+                  schedules_day != [] &&
+                  schedules_day.map((d, index) => <option key={index} value={d}>{d}</option>)}
               </select>
             </div>
             <div className=" w-[50%]">
@@ -246,7 +244,7 @@ const AppointmentForm = () => {
               <select className="py-2 px-4 w-full rounded-md" ref={timeInputRef} id="time">
                 {schedules_time &&
                   schedules_time.map((schedule, index) => (
-                    <option key={index} value={schedule.time}>{schedule.time}</option>
+                    <option key={index} value={schedule}>{schedule}</option>
                   ))}
               </select>
             </div>

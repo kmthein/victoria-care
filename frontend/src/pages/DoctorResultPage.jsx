@@ -20,16 +20,8 @@ const DoctorResultPage = () => {
         <h3 className=" text-lg font-semibold mt-8">Available Doctors</h3>
         <div className="">
           {doctors.length > 0 ? (
-            doctors.map((doctor) => (
-              <DoctorItem
-                key={doctor.id}
-                id={doctor.id}
-                name={doctor.name}
-                qualification={doctor.qualification}
-                schedules_day={JSON.parse(doctor.schedule_day)}
-                schedules_time={JSON.parse(doctor.schedule_time)}
-                specialty_id={doctor.specialty_id}
-              />
+            doctors.map((doctor, i) => (
+              <DoctorItem key={i} id={doctor._id} name={doctor.name} qualification={doctor.qualification} fees={doctor.doctor_fees} schedules_day={doctor.schedule_day} schedules_time={doctor.schedule_time} specialty_id={doctor.specialtyId} />
             ))
           ) : (
             <p className=" mx-auto text-gray-700">No results found</p>

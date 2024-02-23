@@ -24,6 +24,7 @@
     "@stripe/stripe-js": "^1.54.2",
     "axios": "^1.4.0",
     "babel-plugin-macros": "^3.1.0",
+    "date-fns": "^3.3.1",
     "dotenv": "^16.3.1",
     "framer-motion": "^10.12.18",
     "js-cookie": "^3.0.5",
